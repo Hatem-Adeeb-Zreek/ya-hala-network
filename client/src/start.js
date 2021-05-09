@@ -1,7 +1,22 @@
+// Import
 import ReactDOM from "react-dom";
+import Welcome from "./components/welcome";
 
-ReactDOM.render(<HelloWorld />, document.querySelector("main"));
+let elem;
+const userIsLoggedIn = location.pathname != "/welcome";
 
-function HelloWorld() {
-    return <div>Hello, World!</div>;
+// If Statement to render
+if (!userIsLoggedIn) {
+    elem = <Welcome />;
+} else {
+    elem = (
+        <div>
+            <img src="logo.png" alt="logo" id="small-logo" />
+            <footer>
+                <img src="background.png" alt="background" />
+            </footer>
+        </div>
+    );
 }
+
+ReactDOM.render(elem, document.querySelector("main"));

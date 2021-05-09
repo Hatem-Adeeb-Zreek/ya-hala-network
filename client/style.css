@@ -1,3 +1,106 @@
-body {
-    background-color: ghostwhite;
+* {
+    box-sizing: border-box;
+    margin: 0 auto;
 }
+body {
+    /* background-color: #f6fba2;
+    background-image: linear-gradient(315deg, #f6fba2 0%, #20ded3 74%); */
+    /* background-image: url("background.png");
+    background-repeat: repeat-x; */
+    /* background-size: cover; */
+    /* overflow: hidden; */
+}
+footer img {
+    width: 100vw;
+    height: 25vh;
+    position: absolute;
+    bottom: 0;
+
+    /* background-image: url("./public/background.png");
+    background-repeat: repeat-x; */
+    /* background-size: cover;
+}
+.welcome {
+    /* background-image: url("background.png"); */
+    /* background-repeat: no-repeat;
+    background-size: cover; */
+}
+
+h1,
+h2 {
+    font-family: "Waiting for the Sunrise", cursive;
+    color: rgb(151, 13, 59);
+}
+h1 {
+    font-size: 30px;
+}
+
+#h2-margin {
+    margin-bottom: 50px;
+    margin-top: -50px;
+    /* margin-bottom: 50px; */
+}
+#logo {
+    width: 310px;
+    height: 310px;
+    border-radius: 50%;
+    /* opacity: 0.8; */
+    /* background-color: rgb(211, 122, 7); */
+}
+/* .logo {
+    /* border-radius: 50%; */
+/* background-color: red; */
+/* }  */
+
+#small-logo {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    left: 0;
+}
+.welcome,
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.form-container {
+    position: absolute;
+    right: 0;
+    /* background-color: rgb(44, 44, 99); */
+}
+button {
+    background-color: rgb(37, 37, 117);
+    color: rgb(245, 231, 236);
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 15px;
+    cursor: pointer;
+}
+button:hover {
+    color: rgb(151, 13, 59);
+    font-size: 20px;
+}
+.errMsg {
+    font-size: 20px;
+    margin: 20px;
+    color: red;
+}
+.welcome {
+    position: absolute;
+    left: 0;
+}
+input {
+    display: block;
+    margin: 10px;
+    padding: 5px;
+    border: none;
+    font-size: 15px;
+    border-bottom: 1px solid rgb(151, 13, 59);
+}
+input:focus {
+    outline: 0;
+}
+
+/* register form */
