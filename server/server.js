@@ -16,6 +16,12 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
+app.use(csurf());
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    res.set("x-frame-options", "DENY");
+    next();
+});
 app.use(compression());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
@@ -74,6 +80,51 @@ app.post("/register", (req, res) => {
         res.json({
             success: false,
             message: "make sure your form is complete!",
+        });
+    }
+});
+
+// Post Route for Log In
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    if (email && password) {
+        db.getUserDataByEmail(email)
+            .then((results) => {
+                const hashedPw = results.rows[0].password;
+                compare(password, hashedPw)
+                    .then((match) => {
+                        if (match) {
+                            req.session.userId = results.rows[0].id;
+                            console.log("successful log in!");
+                            res.json({ success: true });
+                        } else {
+                            console.log("error! no match passwords");
+                            res.json({
+                                success: false,
+                                message: "Failed to Log In",
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        console.log("error in POST /login compare():", err);
+                        res.json({
+                            success: false,
+                            message: "Server Error",
+                        });
+                    });
+            })
+            .catch((err) => {
+                console.log("error in POST /login getUserDataByEmail():", err);
+                res.json({
+                    success: false,
+                    message: "Failed to Log In",
+                });
+            });
+    } else {
+        console.log("error! empty fields!");
+        res.json({
+            success: false,
+            message: "these Fields are mandatory!",
         });
     }
 });

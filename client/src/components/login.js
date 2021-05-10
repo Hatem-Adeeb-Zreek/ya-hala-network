@@ -1,10 +1,10 @@
-// import
+// import modules
 import React from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
 
-// Register Class Component
-export default class Register extends React.Component {
+// Login Class Component
+export default class Login extends React.Component {
     constructor() {
         super();
         this.state = {};
@@ -24,7 +24,7 @@ export default class Register extends React.Component {
 
     submit() {
         axios
-            .post("/register", this.state)
+            .post("/login", this.state)
             .then((response) => {
                 if (response.data.success) {
                     location.replace("/");
@@ -35,33 +35,13 @@ export default class Register extends React.Component {
                     });
                 }
             })
-            .catch((e) => console.log("error in axios post /register", e));
+            .catch((e) => console.log("error in axios post /login", e));
     }
 
     render() {
         return (
             <div className="form-container">
-                <h2>Join Ya Hala!!</h2>
-                {/* err msg */}
-                {this.state.error && (
-                    <h1 className="errMsg">{this.state.message}</h1>
-                )}
-                <input
-                    name="firstname"
-                    placeholder="First Name *"
-                    autoComplete="off"
-                    pattern="^[a-zA-Z ]+$"
-                    onChange={(e) => this.handleChange(e)}
-                    onClick={() => this.clearErrMsg()}
-                ></input>
-                <input
-                    name="lastname"
-                    placeholder="Last Name *"
-                    autoComplete="off"
-                    pattern="^[a-zA-Z ]+$"
-                    onChange={(e) => this.handleChange(e)}
-                    onClick={() => this.clearErrMsg()}
-                ></input>
+                <h1>Please Log In</h1>
                 <input
                     name="email"
                     placeholder="Email Address *"
@@ -77,11 +57,16 @@ export default class Register extends React.Component {
                     onChange={(e) => this.handleChange(e)}
                     onClick={() => this.clearErrMsg()}
                 ></input>
-                <button onClick={() => this.submit()}>register</button>
+                <button name="submit" onClick={() => this.submit()}>
+                    log in
+                </button>
+                {this.state.error && (
+                    <h1 className="errMsg">{this.state.message}</h1>
+                )}
                 <h3 className="login">
-                    already a member?
-                    <Link to="/login" className="link">
-                        login
+                    not yet a member?
+                    <Link to="/" className="link">
+                        register
                     </Link>
                 </h3>
             </div>

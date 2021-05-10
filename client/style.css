@@ -27,7 +27,8 @@ footer img {
 }
 
 h1,
-h2 {
+h2,
+h3 {
     font-family: "Waiting for the Sunrise", cursive;
     color: rgb(151, 13, 59);
 }
@@ -78,7 +79,16 @@ button {
     padding: 15px;
     cursor: pointer;
 }
-button:hover {
+.link {
+    text-decoration: none;
+    color: rgb(37, 37, 117);
+    margin-left: 15px;
+}
+.login {
+    margin-top: 15px;
+}
+button:hover,
+.link:hover {
     color: rgb(151, 13, 59);
     font-size: 20px;
 }

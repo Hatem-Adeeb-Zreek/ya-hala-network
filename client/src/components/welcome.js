@@ -1,5 +1,7 @@
 // import
 import Register from "./register";
+import { HashRouter, Route } from "react-router-dom";
+import Login from "./login";
 
 // Welcome Function Component
 export default function Welcome() {
@@ -12,7 +14,12 @@ export default function Welcome() {
                     Stay connected with friends, family, and colleagues.
                 </h2>
             </div>
-            <Register />
+            <HashRouter>
+                <div>
+                    <Route exact path="/" component={Register} />
+                    <Route path="/login" component={Login} />
+                </div>
+            </HashRouter>
             <footer>
                 <img src="background.png" alt="background" />
             </footer>

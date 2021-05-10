@@ -2,6 +2,7 @@
 import ReactDOM from "react-dom";
 import Welcome from "./components/welcome";
 
+// to check if the user logged in
 let elem;
 const userIsLoggedIn = location.pathname != "/welcome";
 
