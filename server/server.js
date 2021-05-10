@@ -8,6 +8,8 @@ const { cookieSecret } = require("./secrets.json");
 const csurf = require("csurf");
 const { hash, compare } = require("./bc");
 const db = require("./db");
+const cryptoRandomString = require("crypto-random-string");
+const ses = require("./ses");
 
 // app.use
 app.use(
@@ -42,38 +44,29 @@ app.get("/welcome", (req, res) => {
 app.post("/register", (req, res) => {
     const { firstname, lastname, email, password } = req.body;
     if (firstname && lastname && email && password) {
-        db.getUserDataByEmail(email)
-            .then((results) => {
-                if (results.rows.length == 0) {
-                    console.log("email is good to use!");
-                    hash(password)
-                        .then((hashedPw) => {
-                            db.createUser(firstname, lastname, email, hashedPw)
-                                .then((results) => {
-                                    req.session.userId = results.rows[0].id;
-                                    console.log("a new user was added!");
-                                    res.json({ success: true });
-                                })
-                                .catch((err) => {
-                                    console.log(
-                                        "error in POST /register createUser()",
-                                        err
-                                    );
-                                });
-                        })
-                        .catch((err) => {
-                            console.log("error is POST /register hash()", err);
-                        });
-                } else {
-                    console.log("error! email has been already used");
-                    res.json({
-                        success: false,
-                        message: "this email is already in use",
+        hash(password)
+            .then((hashedPw) => {
+                db.createUser(firstname, lastname, email, hashedPw)
+                    .then((results) => {
+                        req.session.userId = results.rows[0].id;
+                        res.json({ success: true });
+                    })
+                    .catch((err) => {
+                        if (err.constraint == "users_email_key") {
+                            res.json({
+                                success: false,
+                                message: "This Email is Already in Use",
+                            });
+                        } else {
+                            console.log(
+                                "error in POST /register createUser()",
+                                err
+                            );
+                        }
                     });
-                }
             })
             .catch((err) => {
-                console.log("error is POST /register checkEmail()", err);
+                console.log("error is POST /register hash()", err);
             });
     } else {
         console.log("error! empty fields!");
@@ -125,6 +118,73 @@ app.post("/login", (req, res) => {
         res.json({
             success: false,
             message: "these Fields are mandatory!",
+        });
+    }
+});
+
+// Post Route for Reset Password
+app.post("/password/reset/old", (req, res) => {
+    const { email } = req.body;
+    if (email) {
+        db.getUserDataByEmail(email)
+            .then((results) => {
+                if (results.rows.length > 0) {
+                    const secretCode = cryptoRandomString({
+                        length: 6,
+                    });
+                    db.storeCode(secretCode, email)
+                        .then(() => {
+                            const emailSubject =
+                                "Your Request to reset Password";
+                            const emailMessage = `
+                                Please use the Verification Code below to reset your Password:
+                                ${secretCode}
+                                Please note: This Code expires after 10 Minutes.
+                                `;
+                            ses.sendEmail(email, emailMessage, emailSubject)
+                                .then(() => {
+                                    res.json({ success: true });
+                                })
+                                .catch((err) => {
+                                    console.log("error in ses.sendEmail:", err);
+                                    res.json({
+                                        success: false,
+                                        message:
+                                            "Server Error. Please Try Again",
+                                    });
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(
+                                "error in POST /password/reset/old storeCode()",
+                                err
+                            );
+                            res.json({
+                                success: false,
+                                message: "Server Error. Please Try Again",
+                            });
+                        });
+                } else {
+                    res.json({
+                        success: false,
+                        message: "Email was Not Found, Try Again",
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(
+                    "error in POST /password/reset/old getUserDataByEmail():",
+                    err
+                );
+                res.json({
+                    success: false,
+                    message: "Server Error. Please Try Again",
+                });
+            });
+    } else {
+        res.json({
+            success: false,
+            message: "Please Enter your Email Address",
         });
     }
 });

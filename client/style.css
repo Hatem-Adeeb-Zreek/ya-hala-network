@@ -69,6 +69,7 @@ h1 {
 .form-container {
     position: absolute;
     right: 0;
+    margin-right: 15px;
     /* background-color: rgb(44, 44, 99); */
 }
 button {
@@ -83,6 +84,7 @@ button {
     text-decoration: none;
     color: rgb(37, 37, 117);
     margin-left: 15px;
+    margin-right: 10px;
 }
 .login {
     margin-top: 15px;
