@@ -10,6 +10,34 @@ const { hash, compare } = require("./bc");
 const db = require("./db");
 const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
+const s3 = require("./s3");
+const { s3Url } = require("./config.json");
+
+/////// MULTER ////////
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24)
+            .then(function (uid) {
+                callback(null, uid + path.extname(file.originalname));
+            })
+            .catch((err) => {
+                console.log("error in multerdiskstorage: ", err);
+            });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 // app.use
 app.use(
@@ -122,7 +150,7 @@ app.post("/login", (req, res) => {
     }
 });
 
-// Post Route for Reset Password
+// Post Route for Reset Old Password
 app.post("/password/reset/old", (req, res) => {
     const { email } = req.body;
     if (email) {
@@ -188,6 +216,132 @@ app.post("/password/reset/old", (req, res) => {
         });
     }
 });
+
+// Post Route for Reset Password
+app.post("/password/reset/start", async (req, res) => {
+    const { email } = req.body;
+    if (email) {
+        try {
+            let checkEmail = await db.getUserDataByEmail(email);
+            if (checkEmail.rows.length > 0) {
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                await db.storeCode(secretCode, email);
+                const first = checkEmail.rows[0].first;
+                const emailSubject = "Your Request to Reset The Login Password";
+                const emailMessage = `
+                Hello, ${first}!
+                Please use the Verification Code below to Reset your Password:
+                ${secretCode}
+                Please Note: This Verification Code expires after 10 minutes!
+                `;
+                res.json({ success: true });
+            } else {
+                res.json({
+                    success: false,
+                    message: "Email Address was Not Found, Try Again",
+                });
+            }
+        } catch (err) {
+            if (err.message.startsWith("Invalid Domain Name")) {
+                console.log("error in ses.sendEmail(): ", err);
+            } else {
+                console.log(err);
+            }
+            res.json({
+                success: false,
+                message: "Server Error. Please Try Again",
+            });
+        }
+    } else {
+        res.json({
+            success: false,
+            message: "Please Enter your Email",
+        });
+    }
+});
+
+// Post Route to Verify
+app.post("/password/reset/verify", async (req, res) => {
+    const { email, secretCode, password } = req.body;
+    if (secretCode && password) {
+        try {
+            let checkCode = await db.checkCode(email);
+            if (checkCode.rows.length > 0) {
+                if (checkCode.rows[0].code === secretCode) {
+                    let hashedPw = await hash(password);
+                    await db.updatePw(hashedPw, email);
+                    res.json({ success: true });
+                } else {
+                    res.json({
+                        success: false,
+                        message:
+                            "Recovery Verification Code doesn't Match or Expired. Please Try again or Request a nNew Verification Code",
+                    });
+                }
+            } else {
+                res.json({
+                    success: false,
+                    message:
+                        "Recovery Verification Code doesn't Match or Expired. Please Try again or Request a nNew Verification Code",
+                });
+            }
+        } catch (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                message: "server Error. Please Try Again",
+            });
+        }
+    } else {
+        res.json({
+            success: false,
+            message: "These Fields are Mandatory",
+        });
+    }
+});
+
+// Post Route for User
+app.post("/user", async (req, res) => {
+    const { userId } = req.session;
+    try {
+        let userData = await db.getUserDataById(userId);
+        let rows = userData.rows[0];
+        res.json({ rows });
+    } catch (err) {
+        console.log("error in post/user", err);
+    }
+});
+
+// Post Route for Profile Picture
+app.post(
+    "/upload/profilepic",
+    uploader.single("file"),
+    s3.upload,
+    async (req, res) => {
+        if (req.file) {
+            const { userId } = req.session;
+            const url = `${s3Url}${req.file.filename}`;
+            try {
+                let results = await db.uploadPicture(url, userId);
+                let returnedUrl = results.rows[0].p_pic_url;
+                res.json({ returnedUrl });
+            } catch (err) {
+                console.log("error in post/upload/profilepic", err);
+                res.json({
+                    success: false,
+                    message: "Server Error. Please Try Again",
+                });
+            }
+        } else {
+            res.json({
+                success: false,
+                message: "No File was Chosen",
+            });
+        }
+    }
+);
 
 // GET * Route
 app.get("*", function (req, res) {

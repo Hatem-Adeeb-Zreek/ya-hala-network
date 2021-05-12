@@ -1,6 +1,7 @@
 // Import
 import ReactDOM from "react-dom";
 import Welcome from "./components/welcome";
+import App from "./components/app";
 
 // to check if the user logged in
 let elem;
@@ -12,7 +13,7 @@ if (!userIsLoggedIn) {
 } else {
     elem = (
         <div>
-            <img src="logo.png" alt="logo" id="small-logo" />
+            <App />
             <footer>
                 <img src="background.png" alt="background" />
             </footer>

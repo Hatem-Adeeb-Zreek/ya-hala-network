@@ -116,3 +116,45 @@ input:focus {
 }
 
 /* register form */
+.profileIcon {
+    width: 75px;
+    height: 75px;
+    border-radius: 5px;
+    position: absolute;
+    right: 0;
+    margin: 30px;
+}
+.profileIcon:hover {
+    cursor: pointer;
+}
+
+.profile-header {
+    position: relative;
+}
+
+.uploaderModal {
+    background-color: rgb(37, 37, 117);
+    border: 3px solid rgb(151, 13, 59);
+    border-radius: 5px;
+    padding: 20px;
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    transform: translateX(-50%);
+    filter: drop-shadow(5px 5px 5px #222);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* color: whitesmoke; */
+}
+
+.uploaderModal h2 {
+    color: whitesmoke;
+    margin-bottom: 10px;
+}
+
+.uploaderModal input {
+    margin: 10px;
+    border-bottom: none;
+}

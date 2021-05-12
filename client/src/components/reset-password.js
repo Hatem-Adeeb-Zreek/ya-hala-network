@@ -72,7 +72,7 @@ export default class ResetPassword extends React.Component {
                         onClick={() => this.clearErrMsg()}
                     ></input>
                     <button name="submit" onClick={() => this.submitEmail()}>
-                        reset
+                        Send Email
                     </button>
                     {this.state.error && (
                         <h1 className="errMsg">{this.state.message}</h1>
@@ -100,7 +100,7 @@ export default class ResetPassword extends React.Component {
                         onClick={() => this.clearErrMsg()}
                     ></input>
                     <button name="submit" onClick={() => this.submitNewPw()}>
-                        submit
+                        Reset Password
                     </button>
                     {this.state.error && (
                         <h1 className="errMsg">{this.state.message}</h1>
@@ -115,6 +115,7 @@ export default class ResetPassword extends React.Component {
                         <h3>now you can go ahead</h3>
                         <h3>
                             and <Link to="/login"> login</Link>
+                            with your new password
                         </h3>
                     </div>
                 </div>

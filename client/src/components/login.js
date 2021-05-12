@@ -11,15 +11,11 @@ export default class Login extends React.Component {
     }
 
     handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     clearErrMsg() {
-        this.setState({
-            error: false,
-        });
+        this.setState({ error: false });
     }
 
     submit() {
