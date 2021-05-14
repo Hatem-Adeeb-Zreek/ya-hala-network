@@ -16,6 +16,7 @@ const ses = new aws.SES({
 
 // sendEmail function
 module.exports.sendEmail = function (recipient, message, subject) {
+    console.log(recipient);
     return ses
         .sendEmail({
             Source: "Hatem Zreek <infrequent.poppy@spicedling.email>",

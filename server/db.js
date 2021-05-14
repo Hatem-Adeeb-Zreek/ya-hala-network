@@ -19,10 +19,9 @@ exports.getUserDataByEmail = (userEmail) => {
 
 // GET User Data By Id
 exports.getUserDataById = (userId) => {
-    // need bio after ppicurl
     return db.query(
         `
-        SELECT first, last, p_pic_url
+        SELECT first, last, avatar, bio
         FROM users 
         WHERE id = $1;
         `,
@@ -84,10 +83,23 @@ exports.uploadPicture = (profilePicUrl, userId) => {
     return db.query(
         `
         UPDATE users
-        SET p_pic_url = $1
+        SET avatar = $1
         WHERE id = $2
-        RETURNING p_pic_url;       
+        RETURNING avatar;       
         `,
         [profilePicUrl, userId]
+    );
+};
+
+// Update Bio
+exports.updateBio = (bioText, userId) => {
+    return db.query(
+        `
+        UPDATE users
+        SET bio = $1
+        WHERE id = $2
+        RETURNING bio;
+        `,
+        [bioText, userId]
     );
 };

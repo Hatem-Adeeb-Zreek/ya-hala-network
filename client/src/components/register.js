@@ -42,7 +42,6 @@ export default class Register extends React.Component {
         return (
             <div className="form-container">
                 <h2>Join Ya Hala!!</h2>
-                {/* err msg */}
                 {this.state.error && (
                     <h1 className="errMsg">{this.state.message}</h1>
                 )}

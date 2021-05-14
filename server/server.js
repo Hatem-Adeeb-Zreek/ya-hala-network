@@ -220,6 +220,7 @@ app.post("/password/reset/old", (req, res) => {
 // Post Route for Reset Password
 app.post("/password/reset/start", async (req, res) => {
     const { email } = req.body;
+    console.log(email);
     if (email) {
         try {
             let checkEmail = await db.getUserDataByEmail(email);
@@ -236,6 +237,8 @@ app.post("/password/reset/start", async (req, res) => {
                 ${secretCode}
                 Please Note: This Verification Code expires after 10 minutes!
                 `;
+                //
+                await ses.sendEmail(email, emailMessage, emailSubject);
                 res.json({ success: true });
             } else {
                 res.json({
@@ -325,7 +328,7 @@ app.post(
             const url = `${s3Url}${req.file.filename}`;
             try {
                 let results = await db.uploadPicture(url, userId);
-                let returnedUrl = results.rows[0].p_pic_url;
+                let returnedUrl = results.rows[0].avatar;
                 res.json({ returnedUrl });
             } catch (err) {
                 console.log("error in post/upload/profilepic", err);
@@ -342,6 +345,23 @@ app.post(
         }
     }
 );
+
+// Post Route for Bio
+app.post("/upload/bio", async (req, res) => {
+    const { userId } = req.session;
+    const { biotext } = req.body;
+    try {
+        let results = await db.updateBio(biotext, userId);
+        let returnedBio = results.rows[0].bio;
+        res.json({ returnedBio });
+    } catch (err) {
+        console.log("error in post/upload/bio", err);
+        res.json({
+            success: false,
+            message: "Server Error. Please Try Again",
+        });
+    }
+});
 
 // GET * Route
 app.get("*", function (req, res) {

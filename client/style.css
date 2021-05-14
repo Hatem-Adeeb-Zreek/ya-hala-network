@@ -130,6 +130,7 @@ input:focus {
 
 .profile-header {
     position: relative;
+    border: 2px solid rgb(37, 37, 117);
 }
 
 .uploaderModal {
@@ -157,4 +158,18 @@ input:focus {
 .uploaderModal input {
     margin: 10px;
     border-bottom: none;
+}
+
+.profile {
+    /* background-color: gray; */
+    height: 50vh;
+    width: 50vw;
+    color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column-reverse;
+    position: absolute;
+    right: 50%;
+    top: 50%;
 }

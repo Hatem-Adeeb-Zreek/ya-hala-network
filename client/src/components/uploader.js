@@ -33,7 +33,7 @@ export default class Uploader extends React.Component {
                 this.setState({ imgUrl: returnedUrl });
                 this.methodInUploader();
             } catch (err) {
-                console.log("error in axios POST unpload profilepic:", err);
+                console.log("error in axios POST /upload/profilepic:", err);
             }
         })();
     }

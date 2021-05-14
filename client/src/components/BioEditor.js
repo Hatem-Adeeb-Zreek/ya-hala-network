@@ -1,28 +1,73 @@
-// import React, { Component } from "react";
+// import modules
+import { Component } from "react";
+import axios from "../axios";
 
-// export default class BioEditor extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             editorIsVisible: false, //toggle this with the edit button
-//         };
-//     }
+// BioEditor Class Component
+export default class BioEditor extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            editorIsVisible: false,
+            draftBio: null,
+        };
+    }
 
-//     textareaToggle() {
-//         this.setState({
-//             editorIsVisible: !this.state.editorIsVisible,
-//         });
-//     }
+    methodInBioEditor() {
+        this.props.methodInAppBio(this.state.draftBio);
+    }
 
-//     render() {
-//         return (
-//             <>
-//                 <h1>Bio Editor</h1>
-//                 {this.state.editorIsVisible && <textarea />}
-//                 <button onClick={() => this.textareaToggle()}>
-//                     click to edit
-//                 </button>
-//             </>
-//         );
-//     }
-// }
+    handleChange(e) {
+        this.setState({
+            draftBio: e.target.value,
+        });
+    }
+
+    textareaToggle() {
+        this.setState({
+            editorIsVisible: !this.state.editorIsVisible,
+        });
+        if (this.state.editorIsVisible) {
+            if (
+                this.state.draftBio !== null ||
+                this.state.draftBio !== undefined
+            ) {
+                let bioObj = { biotext: this.state.draftBio };
+                (async () => {
+                    try {
+                        let response = await axios.post("/upload/bio", bioObj);
+                        let { returnedBio } = response.data;
+                        this.setState({ draftBio: returnedBio });
+                        this.methodInBioEditor();
+                    } catch (err) {
+                        console.log("error in axios POST /upload/bio:", err);
+                    }
+                })();
+            }
+        }
+    }
+
+    render() {
+        return (
+            <div className="profileEditor">
+                <p>{this.props.bio}</p>
+                {this.state.editorIsVisible && (
+                    <textarea
+                        defaultValue={this.props.bio}
+                        rows="3"
+                        cols="100"
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                )}
+                <div>
+                    <button onClick={() => this.textareaToggle()}>
+                        {this.state.editorIsVisible
+                            ? "save"
+                            : this.props.bio
+                            ? "edit Bio"
+                            : "add Bio"}
+                    </button>
+                </div>
+            </div>
+        );
+    }
+}
