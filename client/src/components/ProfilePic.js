@@ -6,13 +6,14 @@ export default function ProfilePic({
     toggleUploader,
 }) {
     return (
-        <>
+        <div>
             <img
-                className="profileIcon"
+                key={profilePicUrl}
+                className="avatar"
                 src={profilePicUrl || "/profile-fallback.e7a6f788830c.jpg"}
-                alt={first + " " + last}
+                alt={`${first} ${last}`}
                 onClick={toggleUploader}
             />
-        </>
+        </div>
     );
 }

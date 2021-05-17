@@ -40,7 +40,7 @@ export default class Uploader extends React.Component {
 
     render() {
         return (
-            <div className="uploaderModal">
+            <div className="uploader-wrapper">
                 <h2>Click below to Update your Profile Picture</h2>
                 <input
                     type="file"
@@ -48,8 +48,12 @@ export default class Uploader extends React.Component {
                     placeholder="choose image"
                     accept="image/*"
                     onChange={this.handleFileChange}
+                    id="file"
                 ></input>
-                <button onClick={() => this.submit()}>Upload</button>
+                <label htmlFor="file">choose an Avatar</label>
+                <button onClick={() => this.submit()} className="bio-btn">
+                    Upload
+                </button>
             </div>
         );
     }

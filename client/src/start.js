@@ -12,11 +12,8 @@ if (!userIsLoggedIn) {
     elem = <Welcome />;
 } else {
     elem = (
-        <div>
+        <div className="start-wrapper">
             <App />
-            <footer>
-                <img src="background.png" alt="background" />
-            </footer>
         </div>
     );
 }

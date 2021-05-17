@@ -35,7 +35,7 @@ const diskStorage = multer.diskStorage({
 const uploader = multer({
     storage: diskStorage,
     limits: {
-        fileSize: 2097152,
+        fileSize: 4097152,
     },
 });
 
@@ -83,7 +83,7 @@ app.post("/register", (req, res) => {
                         if (err.constraint == "users_email_key") {
                             res.json({
                                 success: false,
-                                message: "This Email is Already in Use",
+                                message: "🛑 This Email is Already in Use 🛑",
                             });
                         } else {
                             console.log(
@@ -100,7 +100,7 @@ app.post("/register", (req, res) => {
         console.log("error! empty fields!");
         res.json({
             success: false,
-            message: "make sure your form is complete!",
+            message: "🛑 Make sure your Form is Complete 🛑",
         });
     }
 });
@@ -122,7 +122,7 @@ app.post("/login", (req, res) => {
                             console.log("error! no match passwords");
                             res.json({
                                 success: false,
-                                message: "Failed to Log In",
+                                message: "🛑 Failed to login 🛑",
                             });
                         }
                     })
@@ -130,7 +130,7 @@ app.post("/login", (req, res) => {
                         console.log("error in POST /login compare():", err);
                         res.json({
                             success: false,
-                            message: "Server Error",
+                            message: " 🛑 Server Error 🛑",
                         });
                     });
             })
@@ -145,7 +145,7 @@ app.post("/login", (req, res) => {
         console.log("error! empty fields!");
         res.json({
             success: false,
-            message: "these Fields are mandatory!",
+            message: " 🛑 All Fields are mandatory 🛑",
         });
     }
 });
@@ -243,7 +243,7 @@ app.post("/password/reset/start", async (req, res) => {
             } else {
                 res.json({
                     success: false,
-                    message: "Email Address was Not Found, Try Again",
+                    message: "🛑 Email Address was Not Found, Try Again 🛑",
                 });
             }
         } catch (err) {
@@ -254,13 +254,13 @@ app.post("/password/reset/start", async (req, res) => {
             }
             res.json({
                 success: false,
-                message: "Server Error. Please Try Again",
+                message: " 🛑 Server Error. Please Try Again 🛑",
             });
         }
     } else {
         res.json({
             success: false,
-            message: "Please Enter your Email",
+            message: "🛑 PLZ, provide us your Email 🛑",
         });
     }
 });
@@ -280,27 +280,27 @@ app.post("/password/reset/verify", async (req, res) => {
                     res.json({
                         success: false,
                         message:
-                            "Recovery Verification Code doesn't Match or Expired. Please Try again or Request a nNew Verification Code",
+                            " 🛑 Recovery Verification Code doesn't Match or Expired. Please Try again or Request a New Verification Code 🛑",
                     });
                 }
             } else {
                 res.json({
                     success: false,
                     message:
-                        "Recovery Verification Code doesn't Match or Expired. Please Try again or Request a nNew Verification Code",
+                        " 🛑 Recovery Verification Code doesn't Match or Expired. Please Try again or Request a nNew Verification Code 🛑",
                 });
             }
         } catch (err) {
             console.log(err);
             res.json({
                 success: false,
-                message: "server Error. Please Try Again",
+                message: " 🛑 Server Error. Please Try Again 🛑",
             });
         }
     } else {
         res.json({
             success: false,
-            message: "These Fields are Mandatory",
+            message: " 🛑 These Fields are Mandatory 🛑",
         });
     }
 });
@@ -360,6 +360,34 @@ app.post("/upload/bio", async (req, res) => {
             success: false,
             message: "Server Error. Please Try Again",
         });
+    }
+});
+
+// Post Route for other Users
+app.post("/user/:otherId", async (req, res) => {
+    const { userId } = req.session;
+    const { otherId } = req.params;
+    if (otherId > 0) {
+        try {
+            let otherProfileData = await db.getUserDataById(otherId);
+            let rows = otherProfileData.rows[0];
+            if (otherId == userId) {
+                res.json({
+                    rows,
+                    match: true,
+                    ownId: userId,
+                });
+            } else {
+                res.json({
+                    rows,
+                    match: false,
+                });
+            }
+        } catch (err) {
+            console.log("Error in Post user/:id", err);
+        }
+    } else {
+        res.json({ rows: null });
     }
 });
 

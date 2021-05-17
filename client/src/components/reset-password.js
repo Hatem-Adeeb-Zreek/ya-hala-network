@@ -62,8 +62,11 @@ export default class ResetPassword extends React.Component {
         const step = this.state.step;
         if (step == "provideEmail") {
             return (
-                <div className="form-container">
+                <div className="info">
                     <h1>Please Enter Your Email</h1>
+                    {this.state.error && (
+                        <h1 className="err">{this.state.message}</h1>
+                    )}
                     <input
                         name="email"
                         placeholder="Email Address *"
@@ -74,15 +77,15 @@ export default class ResetPassword extends React.Component {
                     <button name="submit" onClick={() => this.submitEmail()}>
                         Send Email
                     </button>
-                    {this.state.error && (
-                        <h1 className="errMsg">{this.state.message}</h1>
-                    )}
                 </div>
             );
         } else if (step == "provideCodePW") {
             return (
-                <div className="form-container">
-                    <h3>Recovery Email was Sent</h3>
+                <div className="info">
+                    <h1>Recovery Email was Sent</h1>
+                    {this.state.error && (
+                        <h1 className="err">{this.state.message}</h1>
+                    )}
                     <input
                         name="secretCode"
                         placeholder="Recovery Code *"
@@ -102,22 +105,17 @@ export default class ResetPassword extends React.Component {
                     <button name="submit" onClick={() => this.submitNewPw()}>
                         Reset Password
                     </button>
-                    {this.state.error && (
-                        <h1 className="errMsg">{this.state.message}</h1>
-                    )}
                 </div>
             );
         } else {
             return (
-                <div className="form-container">
+                <div className="info">
                     <h1>Password Reset Successfully</h1>
-                    <div className="formLower">
-                        <h3>now you can go ahead</h3>
-                        <h3>
-                            and <Link to="/login"> login</Link>
-                            with your new password
-                        </h3>
-                    </div>
+
+                    <h3>
+                        <Link to="/login"> login</Link>
+                        with your new password
+                    </h3>
                 </div>
             );
         }

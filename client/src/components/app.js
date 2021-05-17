@@ -1,11 +1,12 @@
 // import modules
 import React from "react";
-// import ProfileIcon from "./profile-icon";
 import axios from "../axios";
 import ProfilePic from "./ProfilePic";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import Logo from "./Logo";
+import { BrowserRouter, Route } from "react-router-dom";
+import OtherProfile from "./OtherProfile";
 
 // App Class Component
 export default class App extends React.Component {
@@ -22,8 +23,9 @@ export default class App extends React.Component {
         (async () => {
             try {
                 let response = await axios.post("/user");
-                const { first, last, avatar, bio } = response.data.rows;
+                const { id, first, last, avatar, bio } = response.data.rows;
                 this.setState({
+                    id: id,
                     first: first,
                     last: last,
                     profilePicUrl: avatar,
@@ -52,8 +54,8 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <>
-                <header className="profile-header">
+            <BrowserRouter>
+                <header className="app-header">
                     <Logo />
                     <ProfilePic
                         first={this.state.first}
@@ -63,14 +65,32 @@ export default class App extends React.Component {
                         toggleUploader={() => this.toggleUploader()}
                     />
                 </header>
-
-                <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    profilePicUrl={this.state.profilePicUrl}
-                    bio={this.state.bio}
-                    methodInAppBio={this.methodInAppBio}
-                />
+                <section className="profile-wrapper">
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Profile
+                                id={this.state.id}
+                                first={this.state.first}
+                                last={this.state.last}
+                                profilePicUrl={this.state.profilePicUrl}
+                                bio={this.state.bio}
+                                methodInAppBio={this.methodInAppBio}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/user/:id"
+                        render={(props) => (
+                            <OtherProfile
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
+                </section>
 
                 {this.state.uploaderIsVisible && (
                     <Uploader
@@ -78,7 +98,7 @@ export default class App extends React.Component {
                         profilePicUrl={this.state.profilePicUrl}
                     />
                 )}
-            </>
+            </BrowserRouter>
         );
     }
 }

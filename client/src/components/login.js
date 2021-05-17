@@ -36,8 +36,11 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <div className="form-container">
-                <h1>Please Log In</h1>
+            <div className="info">
+                <h1>Please login</h1>
+                {this.state.error && (
+                    <h1 className="err">{this.state.message}</h1>
+                )}
                 <input
                     name="email"
                     placeholder="Email Address *"
@@ -54,23 +57,15 @@ export default class Login extends React.Component {
                     onClick={() => this.clearErrMsg()}
                 ></input>
                 <button name="submit" onClick={() => this.submit()}>
-                    log in
+                    login
                 </button>
-                {this.state.error && (
-                    <h1 className="errMsg">{this.state.message}</h1>
-                )}
-
-                <h3 className="login">
+                <h3>
                     Not Yet a Member?
-                    <Link to="/" className="link">
-                        register
-                    </Link>
+                    <Link to="/">register</Link>
                 </h3>
-                <h3 className="login">
-                    Forgot your Password? Click to
-                    <Link to="/reset-password" className="link">
-                        reset
-                    </Link>
+                <h3>
+                    Forgot your Password?
+                    <Link to="/reset-password">reset</Link>
                 </h3>
             </div>
         );

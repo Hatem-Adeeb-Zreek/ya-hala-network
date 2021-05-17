@@ -40,10 +40,10 @@ export default class Register extends React.Component {
 
     render() {
         return (
-            <div className="form-container">
-                <h2>Join Ya Hala!!</h2>
+            <div className="info">
+                <h2>Be a Part of our Family</h2>
                 {this.state.error && (
-                    <h1 className="errMsg">{this.state.message}</h1>
+                    <h1 className="err">{this.state.message}</h1>
                 )}
                 <input
                     name="firstname"
@@ -77,8 +77,8 @@ export default class Register extends React.Component {
                     onClick={() => this.clearErrMsg()}
                 ></input>
                 <button onClick={() => this.submit()}>register</button>
-                <h3 className="login">
-                    already a member?
+                <h3>
+                    already a Member?
                     <Link to="/login" className="link">
                         login
                     </Link>

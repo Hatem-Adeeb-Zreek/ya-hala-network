@@ -2,7 +2,7 @@
 export default function Logo() {
     return (
         <>
-            <img src="logo.png" alt="logo" id="small-logo" />
+            <video src="YA HALA(1).mp4" autoPlay loop></video>
         </>
     );
 }

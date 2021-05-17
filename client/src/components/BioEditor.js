@@ -27,10 +27,9 @@ export default class BioEditor extends Component {
             editorIsVisible: !this.state.editorIsVisible,
         });
         if (this.state.editorIsVisible) {
-            if (
-                this.state.draftBio !== null ||
-                this.state.draftBio !== undefined
-            ) {
+            if (this.state.draftBio == null) {
+                return;
+            } else {
                 let bioObj = { biotext: this.state.draftBio };
                 (async () => {
                     try {
@@ -48,25 +47,31 @@ export default class BioEditor extends Component {
 
     render() {
         return (
-            <div className="profileEditor">
-                <p>{this.props.bio}</p>
+            <div>
+                <p className="bio-text">
+                    <strong>Bio: </strong>
+                    {this.props.bio || "your Bio is empty."}
+                </p>
                 {this.state.editorIsVisible && (
                     <textarea
+                        autoFocus={true}
                         defaultValue={this.props.bio}
                         rows="3"
                         cols="100"
                         onChange={(e) => this.handleChange(e)}
                     />
                 )}
-                <div>
-                    <button onClick={() => this.textareaToggle()}>
-                        {this.state.editorIsVisible
-                            ? "save"
-                            : this.props.bio
-                            ? "edit Bio"
-                            : "add Bio"}
-                    </button>
-                </div>
+
+                <button
+                    onClick={() => this.textareaToggle()}
+                    className="bio-btn"
+                >
+                    {this.state.editorIsVisible
+                        ? "save"
+                        : this.props.bio
+                        ? "edit Bio"
+                        : "add Bio"}
+                </button>
             </div>
         );
     }
