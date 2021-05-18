@@ -7,6 +7,8 @@ import Profile from "./profile";
 import Logo from "./Logo";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./OtherProfile";
+import FindPeople from "./FindPeople";
+import { Link } from "react-router-dom";
 
 // App Class Component
 export default class App extends React.Component {
@@ -57,13 +59,16 @@ export default class App extends React.Component {
             <BrowserRouter>
                 <header className="app-header">
                     <Logo />
-                    <ProfilePic
-                        first={this.state.first}
-                        last={this.state.last}
-                        key={this.state.profilePicUrl}
-                        profilePicUrl={this.state.profilePicUrl}
-                        toggleUploader={() => this.toggleUploader()}
-                    />
+                    <div className="app-right">
+                        <a href="/users">Find People</a>
+                        <ProfilePic
+                            first={this.state.first}
+                            last={this.state.last}
+                            key={this.state.profilePicUrl}
+                            profilePicUrl={this.state.profilePicUrl}
+                            toggleUploader={() => this.toggleUploader()}
+                        />
+                    </div>
                 </header>
                 <section className="profile-wrapper">
                     <Route
@@ -90,6 +95,7 @@ export default class App extends React.Component {
                             />
                         )}
                     />
+                    <Route path="/users" render={() => <FindPeople />} />
                 </section>
 
                 {this.state.uploaderIsVisible && (

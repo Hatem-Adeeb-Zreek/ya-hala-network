@@ -11,6 +11,10 @@ export default function ProfilePic({
                 key={profilePicUrl}
                 className="avatar"
                 src={profilePicUrl || "/profile-fallback.e7a6f788830c.jpg"}
+                onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/profile-fallback.e7a6f788830c.jpg";
+                }}
                 alt={`${first} ${last}`}
                 onClick={toggleUploader}
             />

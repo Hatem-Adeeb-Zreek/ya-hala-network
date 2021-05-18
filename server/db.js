@@ -103,3 +103,30 @@ exports.updateBio = (bioText, userId) => {
         [bioText, userId]
     );
 };
+
+// get three most recent users
+exports.getMostRecent = () => {
+    return db.query(
+        `
+        SELECT id, first, last, avatar 
+        FROM users 
+        ORDER BY id DESC 
+        LIMIT 3;
+        `
+    );
+};
+
+// search for specific users
+exports.searchUser = (search) => {
+    return db.query(
+        `
+        SELECT id, first, last, avatar 
+        FROM users 
+        WHERE first ILIKE $1 
+        OR last ILIKE $1
+        ORDER BY first ASC 
+        LIMIT 15;
+        `,
+        [search + "%"]
+    );
+};

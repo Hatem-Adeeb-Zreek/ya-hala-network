@@ -2,7 +2,7 @@
 export default function Logo() {
     return (
         <>
-            <video src="YA HALA(1).mp4" autoPlay loop></video>
+            <video src="/YA_HALA1.mp4" autoPlay loop></video>
         </>
     );
 }

@@ -391,6 +391,32 @@ app.post("/user/:otherId", async (req, res) => {
     }
 });
 
+// Post route for users
+app.post("/users", async (req, res) => {
+    try {
+        let { rows } = await db.getMostRecent();
+        res.json(rows);
+    } catch (err) {
+        console.log("Error in POST users", err);
+    }
+});
+
+// Post route for search for users
+app.post("/users/:search", async (req, res) => {
+    const { search } = req.params;
+    if (search) {
+        try {
+            let { rows } = await db.searchUser(search);
+            res.json(rows);
+        } catch (err) {
+            console.log("Error in POST user/:id", err);
+        }
+    } else {
+        console.log("invalid user id");
+        res.json({ rows: null });
+    }
+});
+
 // GET * Route
 app.get("*", function (req, res) {
     const { userId } = req.session;
