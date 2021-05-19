@@ -9,7 +9,7 @@ export default function Welcome() {
     return (
         <>
             <section className="section1">
-                <video src="YA HALA(1).mp4" autoPlay loop></video>
+                <video src="YA_HALA1.mp4" autoPlay loop></video>
                 <h2>Stay connected with friends, family, and colleagues.</h2>
             </section>
             <HashRouter>

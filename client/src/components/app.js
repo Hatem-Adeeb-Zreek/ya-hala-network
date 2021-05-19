@@ -34,7 +34,7 @@ export default class App extends React.Component {
                     bio: bio,
                 });
             } catch (err) {
-                console.log("error in axios POST /user: ", err);
+                console.log("error in axios post /user: ", err);
             }
         })();
     }
@@ -60,7 +60,7 @@ export default class App extends React.Component {
                 <header className="app-header">
                     <Logo />
                     <div className="app-right">
-                        <a href="/users">Find People</a>
+                        <Link to="/users">Find People</Link>
                         <ProfilePic
                             first={this.state.first}
                             last={this.state.last}

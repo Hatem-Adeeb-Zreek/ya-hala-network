@@ -146,7 +146,8 @@ a {
 
 .bio-btn:hover,
 [type="file"]:focus + label,
-[type="file"] + label:hover {
+[type="file"] + label:hover,
+#friend-btn:hover {
     color: #380036;
     cursor: pointer;
 }

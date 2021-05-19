@@ -15,7 +15,7 @@ export default function FindPeople() {
                 let { data } = await axios.post("/users");
                 setUsers(data);
             } catch (err) {
-                console.log("error in axios POST /users:", err);
+                console.log("error in axios post /users:", err);
             }
         })();
     }, []);
@@ -36,7 +36,7 @@ export default function FindPeople() {
                     }
                 }
             } catch (err) {
-                console.log("error in axios POST /users/search:", err);
+                console.log("error in axios post /users/search:", err);
             }
         })();
         return () => {
@@ -46,7 +46,7 @@ export default function FindPeople() {
 
     return (
         <div className="members-wrapper">
-            <h1>Recent Members</h1>
+            <h1>Most Recent Members</h1>
             <div>
                 {users &&
                     users.map((user) => (
@@ -78,6 +78,7 @@ export default function FindPeople() {
             <div className="search-bar">
                 <h3>Search for Members</h3>
                 <input
+                    autoComplete="off"
                     className="search"
                     onChange={(e) => setUserSearch(e.target.value)}
                     placeholder="type member's name here to search.."

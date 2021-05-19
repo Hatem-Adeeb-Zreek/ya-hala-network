@@ -127,6 +127,55 @@ exports.searchUser = (search) => {
         ORDER BY first ASC 
         LIMIT 15;
         `,
-        [search + "%"]
+        ["%" + search + "%"]
+    );
+};
+
+// get the status of the friendship btw users
+exports.getFriendshipStatus = (userId, otherId) => {
+    return db.query(
+        `
+        SELECT * FROM friendships
+        WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1);
+        `,
+        [userId, otherId]
+    );
+};
+
+// delete friendship
+exports.deleteFriendship = (userId, otherId) => {
+    return db.query(
+        `
+        DELETE FROM friendships
+        WHERE (sender_id = $1 AND recipient_id = $2)
+        OR (sender_id = $2 AND recipient_id = $1)
+        `,
+        [userId, otherId]
+    );
+};
+
+// accept friendship
+exports.acceptFriendship = (userId, otherId) => {
+    return db.query(
+        `
+        UPDATE friendships
+        SET accepted = true
+        WHERE (sender_id = $1 AND recipient_id = $2)
+        OR (sender_id = $2 AND recipient_id = $1)
+        `,
+        [userId, otherId]
+    );
+};
+
+// send friendship
+exports.sendFriendship = (userId, otherId) => {
+    return db.query(
+        `
+        INSERT INTO friendships
+        (sender_id, recipient_id)
+        VALUES ($1, $2);
+        `,
+        [userId, otherId]
     );
 };

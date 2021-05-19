@@ -1,6 +1,7 @@
 // import modules
 import React from "react";
 import axios from "../axios";
+import FriendButton from "./FriendButton";
 
 // OtherProfile Class Component
 export default class OtherProfile extends React.Component {
@@ -9,10 +10,11 @@ export default class OtherProfile extends React.Component {
         this.state = {};
     }
     componentDidMount() {
-        let otherProfileId = this.props.match.params.id;
         (async () => {
             try {
-                let response = await axios.post(`/user/${otherProfileId}`);
+                let response = await axios.post(
+                    `/user/${this.props.match.params.id}`
+                );
                 if (response.data.rows && !response.data.match) {
                     const { first, last, avatar, bio } = response.data.rows;
                     this.setState({
@@ -25,7 +27,7 @@ export default class OtherProfile extends React.Component {
                     this.props.history.push("/");
                 }
             } catch (err) {
-                console.log("error in POST /user/id: ", err);
+                console.log("error in post /user/id: ", err);
             }
         })();
     }
@@ -34,16 +36,24 @@ export default class OtherProfile extends React.Component {
         return (
             <div className="profile">
                 <div className="bio-wrapper">
-                    <h1>{`${this.state.first} ${this.state.last}`}</h1>
+                    <h2 id="memberName">{`${this.state.first} ${this.state.last}`}</h2>
                     <p className="bio-text1">
                         {this.state.bio || "No Bio yet"}
                     </p>
+                    <FriendButton otherId={this.props.match.params.id} />
                 </div>
 
                 <img
                     className="avatar1"
                     key={this.state.profilePicUrl}
-                    src={this.state.profilePicUrl}
+                    src={
+                        this.state.profilePicUrl ||
+                        "/profile-fallback.e7a6f788830c.jpg"
+                    }
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/profile-fallback.e7a6f788830c.jpg";
+                    }}
                     alt={`${this.state.first} ${this.state.last}`}
                 />
             </div>
