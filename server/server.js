@@ -305,15 +305,15 @@ app.post("/password/reset/verify", async (req, res) => {
     }
 });
 
-// post Route for User
-app.post("/user", async (req, res) => {
+// post Route for User   post ------ get
+app.get("/user", async (req, res) => {
     const { userId } = req.session;
     try {
         let userData = await db.getUserDataById(userId);
         let rows = userData.rows[0];
         res.json({ rows });
     } catch (err) {
-        console.log("error in post/user", err);
+        console.log("error in get/user", err);
     }
 });
 
@@ -363,8 +363,8 @@ app.post("/upload/bio", async (req, res) => {
     }
 });
 
-// post Route for other Users
-app.post("/user/:otherId", async (req, res) => {
+// post Route for other Users  post ------ get
+app.get("/user/:otherId", async (req, res) => {
     const { userId } = req.session;
     const { otherId } = req.params;
     if (otherId > 0) {
@@ -384,34 +384,36 @@ app.post("/user/:otherId", async (req, res) => {
                 });
             }
         } catch (err) {
-            console.log("Error in post user/:id", err);
+            console.log("Error in get user/:id", err);
         }
     } else {
         res.json({ rows: null });
     }
 });
 
-// post route for users
-app.post("/users", async (req, res) => {
+// post route for users  post ----- get
+app.get("/users", async (req, res) => {
     try {
         let { rows } = await db.getMostRecent();
         res.json(rows);
     } catch (err) {
-        console.log("Error in post users", err);
+        console.log("Error in get users", err);
     }
 });
 
-// post route for search for users
-app.post("/users/:search", async (req, res) => {
+// post route for search for users  post ---- get
+app.get("/users/:search", async (req, res) => {
     const { search } = req.params;
     try {
         let { rows } = await db.searchUser(search);
         res.json(rows);
     } catch (err) {
-        console.log("Error in Post users/:id", err);
+        console.log("Error in get users/:id", err);
     }
 });
-app.post("/checkFriendStatus/:otherId", async (req, res) => {
+
+// post ---- get
+app.get("/checkFriendStatus/:otherId", async (req, res) => {
     const { userId } = req.session;
     const { otherId } = req.params;
     try {
@@ -424,7 +426,7 @@ app.post("/checkFriendStatus/:otherId", async (req, res) => {
             ? res.json({ btnText: "Cancel Friend Request" })
             : res.json({ btnText: "Accept Friend Request" });
     } catch (err) {
-        console.log("Error in app post checkFriendStatus/:otherId", err);
+        console.log("Error in app get checkFriendStatus/:otherId", err);
     }
 });
 
@@ -432,19 +434,44 @@ app.post("/checkFriendStatus/:otherId", async (req, res) => {
 app.post("/setFriendship/:otherId", async (req, res) => {
     const { userId } = req.session;
     const { otherId } = req.params;
+    const { action } = req.body;
     try {
         let { rows } = await db.getFriendshipStatus(userId, otherId);
         rows.length == 0
             ? await db.sendFriendship(userId, otherId)
-            : rows[0].accepted
-            ? await db.deleteFriendship(userId, otherId)
-            : rows[0].sender_id == userId
+            : rows[0].accepted ||
+              (!rows[0].accepted && rows[0].sender_id == userId) ||
+              action === "reject"
             ? await db.deleteFriendship(userId, otherId)
             : await db.acceptFriendship(userId, otherId);
         res.json({ success: true });
     } catch (err) {
         console.log("Error in app post setFriendship/:otherId", err);
     }
+});
+
+// Get Friends Route
+app.get("/getFriends", async (req, res) => {
+    const { userId } = req.session;
+    try {
+        let myRequests = new Array(),
+            friendsWannabes = new Array();
+        let { rows } = await db.getFriendsAndWannabes(userId);
+        rows.forEach((row) => {
+            !row.accepted && row.sender_id == userId
+                ? myRequests.push(row)
+                : friendsWannabes.push(row);
+        });
+        res.json({ myRequests, friendsWannabes });
+    } catch (err) {
+        console.log("Error in app GET getFriends", err);
+    }
+});
+
+// Get logout Route
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("*");
 });
 
 // GET * Route

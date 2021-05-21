@@ -9,13 +9,12 @@ export default function FriendButton({ otherId }) {
     useEffect(() => {
         (async () => {
             try {
-                let { data } = await axios.post(
-                    `/checkFriendStatus/${otherId}`
-                );
+                // post ---- get
+                let { data } = await axios.get(`/checkFriendStatus/${otherId}`);
                 setButtonText(data.btnText);
             } catch (err) {
                 console.log(
-                    "error in axios post /checkFriendStatus/otherId:",
+                    "error in axios get /checkFriendStatus/otherId:",
                     err
                 );
             }
@@ -29,7 +28,7 @@ export default function FriendButton({ otherId }) {
                 let { data } = await axios.post(`/setFriendship/${otherId}`);
                 data.success && setBtnUpdate(true);
             } catch (err) {
-                console.log("error in axios POST /setFriendship/otherId:", err);
+                console.log("error in axios post /setFriendship/otherId:", err);
             }
         })();
     }

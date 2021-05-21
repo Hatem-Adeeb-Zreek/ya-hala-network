@@ -8,22 +8,23 @@ export default function FindPeople() {
     const [users, setUsers] = useState([]);
     const [userSearch, setUserSearch] = useState("");
     const [empty, setEmpty] = useState(false);
-
+    // post ---- get
     useEffect(() => {
         (async () => {
             try {
-                let { data } = await axios.post("/users");
+                let { data } = await axios.get("/users");
                 setUsers(data);
             } catch (err) {
-                console.log("error in axios post /users:", err);
+                console.log("error in axios get /users:", err);
             }
         })();
     }, []);
+    // post ---- get
     useEffect(() => {
         let abort;
         (async () => {
             try {
-                let { data } = await axios.post(`/users/${userSearch}`);
+                let { data } = await axios.get(`/users/${userSearch}`);
                 if (data.length == 0) {
                     setUsers(data);
                     setEmpty(true);
@@ -36,7 +37,7 @@ export default function FindPeople() {
                     }
                 }
             } catch (err) {
-                console.log("error in axios post /users/search:", err);
+                console.log("error in axios get /users/search:", err);
             }
         })();
         return () => {

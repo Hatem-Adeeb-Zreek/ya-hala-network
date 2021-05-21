@@ -161,8 +161,7 @@ exports.acceptFriendship = (userId, otherId) => {
         `
         UPDATE friendships
         SET accepted = true
-        WHERE (sender_id = $1 AND recipient_id = $2)
-        OR (sender_id = $2 AND recipient_id = $1)
+        WHERE (sender_id = $2 AND recipient_id = $1) 
         `,
         [userId, otherId]
     );
@@ -177,5 +176,21 @@ exports.sendFriendship = (userId, otherId) => {
         VALUES ($1, $2);
         `,
         [userId, otherId]
+    );
+};
+
+// get who is a friend and who is want to be a friend
+exports.getFriendsAndWannabes = (userId) => {
+    return db.query(
+        `
+        SELECT users.id, first, last, avatar, accepted, sender_id
+        FROM friendships
+        JOIN users
+        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = false AND sender_id = $1 AND recipient_id = users.id)
+        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+        `,
+        [userId]
     );
 };

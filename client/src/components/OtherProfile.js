@@ -12,7 +12,8 @@ export default class OtherProfile extends React.Component {
     componentDidMount() {
         (async () => {
             try {
-                let response = await axios.post(
+                // post ---- get
+                let response = await axios.get(
                     `/user/${this.props.match.params.id}`
                 );
                 if (response.data.rows && !response.data.match) {
@@ -27,7 +28,7 @@ export default class OtherProfile extends React.Component {
                     this.props.history.push("/");
                 }
             } catch (err) {
-                console.log("error in post /user/id: ", err);
+                console.log("error in get /user/id: ", err);
             }
         })();
     }

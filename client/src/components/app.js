@@ -9,6 +9,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
 import { Link } from "react-router-dom";
+import Friends from "./friends";
 
 // App Class Component
 export default class App extends React.Component {
@@ -24,7 +25,8 @@ export default class App extends React.Component {
     componentDidMount() {
         (async () => {
             try {
-                let response = await axios.post("/user");
+                // post ----- get
+                let response = await axios.get("/user");
                 const { id, first, last, avatar, bio } = response.data.rows;
                 this.setState({
                     id: id,
@@ -34,7 +36,7 @@ export default class App extends React.Component {
                     bio: bio,
                 });
             } catch (err) {
-                console.log("error in axios post /user: ", err);
+                console.log("error in axios get /user: ", err);
             }
         })();
     }
@@ -54,6 +56,17 @@ export default class App extends React.Component {
         this.toggleUploader();
     }
 
+    logOut() {
+        (async () => {
+            try {
+                await axios.get("/logout");
+                location.replace("/welcome#/login");
+            } catch (err) {
+                console.log("error in axios GET /logout ", err);
+            }
+        })();
+    }
+
     render() {
         return (
             <BrowserRouter>
@@ -61,6 +74,10 @@ export default class App extends React.Component {
                     <Logo />
                     <div className="app-right">
                         <Link to="/users">Find People</Link>
+                        <Link to={"/friends"}>Friends</Link>
+                        <button name="logOut" onClick={() => this.logOut()}>
+                            log out
+                        </button>
                         <ProfilePic
                             first={this.state.first}
                             last={this.state.last}
@@ -95,9 +112,10 @@ export default class App extends React.Component {
                             />
                         )}
                     />
-                    <Route path="/users" render={() => <FindPeople />} />
+                    <Route exact path="/users" render={() => <FindPeople />} />
+                    {/* it can be Friends here */}
                 </section>
-
+                <Route exact path="/friends" render={() => <Friends />} />
                 {this.state.uploaderIsVisible && (
                     <Uploader
                         methodInApp={this.methodInApp}
