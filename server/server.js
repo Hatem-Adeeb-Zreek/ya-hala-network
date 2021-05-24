@@ -392,7 +392,7 @@ app.get("/user/:otherId", async (req, res) => {
 });
 
 // post route for users  post ----- get
-app.get("/users", async (req, res) => {
+app.post("/users", async (req, res) => {
     try {
         let { rows } = await db.getMostRecent();
         res.json(rows);
@@ -402,7 +402,7 @@ app.get("/users", async (req, res) => {
 });
 
 // post route for search for users  post ---- get
-app.get("/users/:search", async (req, res) => {
+app.post("/users/:search", async (req, res) => {
     const { search } = req.params;
     try {
         let { rows } = await db.searchUser(search);

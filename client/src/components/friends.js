@@ -28,21 +28,19 @@ export default function Friends() {
 
     return (
         <>
-            <div id="friendsAndWannabes-wrapper">
+            <div className="profile-wrapper">
                 {!friends && !wannabes && !pendings && (
-                    <h1>No Friendships to show</h1>
+                    <h2>No Friendships to show</h2>
                 )}
                 {friends && (
-                    <div className="friends-container">
+                    <div>
                         <h2>My Friends</h2>
                         <div className="items">
                             {friends.map((friend) => (
-                                <div className="member" key={friend.id}>
-                                    <p>
-                                        {friend.first} {friend.last}
-                                    </p>
+                                <div className="friends" key={friend.id}>
                                     <Link to={`/user/${friend.id}`}>
                                         <img
+                                            className="avatar1"
                                             src={
                                                 friend.avatar ||
                                                 "/profile-fallback.e7a6f788830c.jpg"
@@ -55,8 +53,13 @@ export default function Friends() {
                                             alt={`${friend.first} ${friend.last}`}
                                         />
                                     </Link>
-                                    <div className="buttons">
+                                    <div className="friends-info">
+                                        <p>
+                                            {friend.first} {friend.last}
+                                        </p>
+
                                         <button
+                                            className="friend-btn"
                                             onClick={() =>
                                                 dispatch(unfriend(friend.id))
                                             }
@@ -70,16 +73,14 @@ export default function Friends() {
                     </div>
                 )}
                 {wannabes && (
-                    <div className="wannabes-container">
+                    <div>
                         <h2>People want to be Your Friends</h2>
                         <div className="items">
                             {wannabes.map((wannabe) => (
-                                <div className="member" key={wannabe.id}>
-                                    <p>
-                                        {wannabe.first} {wannabe.last}
-                                    </p>
+                                <div className="friends" key={wannabe.id}>
                                     <Link to={`/user/${wannabe.id}`}>
                                         <img
+                                            className="avatar1"
                                             src={
                                                 wannabe.avatar ||
                                                 "/profile-fallback.e7a6f788830c.jpg"
@@ -92,21 +93,28 @@ export default function Friends() {
                                             alt={`${wannabe.first} ${wannabe.last}`}
                                         />
                                     </Link>
-                                    <div className="buttons">
-                                        <button
-                                            onClick={() =>
-                                                dispatch(accept(wannabe.id))
-                                            }
-                                        >
-                                            accept
-                                        </button>
-                                        <button
-                                            onClick={() =>
-                                                dispatch(reject(wannabe.id))
-                                            }
-                                        >
-                                            reject
-                                        </button>
+                                    <div className="friends-info">
+                                        <p>
+                                            {wannabe.first} {wannabe.last}
+                                        </p>
+                                        <div className="btns">
+                                            <button
+                                                className="friend-btn"
+                                                onClick={() =>
+                                                    dispatch(accept(wannabe.id))
+                                                }
+                                            >
+                                                accept
+                                            </button>
+                                            <button
+                                                className="friend-btn"
+                                                onClick={() =>
+                                                    dispatch(reject(wannabe.id))
+                                                }
+                                            >
+                                                reject
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -114,16 +122,14 @@ export default function Friends() {
                     </div>
                 )}
                 {pendings && (
-                    <div className="pendings-container">
+                    <div>
                         <h2>My pending Requests</h2>
                         <div className="items">
                             {pendings.map((pending) => (
-                                <div className="member" key={pending.id}>
-                                    <p>
-                                        {pending.first} {pending.last}
-                                    </p>
+                                <div className="friends" key={pending.id}>
                                     <Link to={`/user/${pending.id}`}>
                                         <img
+                                            className="avatar1"
                                             src={
                                                 pending.avatar ||
                                                 "/profile-fallback.e7a6f788830c.jpg"
@@ -136,8 +142,13 @@ export default function Friends() {
                                             alt={`${pending.first} ${pending.last}`}
                                         />
                                     </Link>
-                                    <div className="buttons">
+                                    <div className="friends-info">
+                                        <p>
+                                            {pending.first} {pending.last}
+                                        </p>
+
                                         <button
+                                            className="friend-btn"
                                             onClick={() =>
                                                 dispatch(cancel(pending.id))
                                             }

@@ -68,7 +68,6 @@ a:hover {
 }
 
 button,
-a,
 [type="file"] + label {
     background: none;
     border: none;
@@ -80,6 +79,9 @@ a,
 a {
     text-decoration: none;
     margin: 15px;
+    color: #037175;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 .err {
@@ -105,7 +107,7 @@ a {
     justify-content: space-between;
 }
 .app-right a {
-    margin-top: 35px;
+    margin-top: 40px;
 }
 .app-header video,
 .avatar {
@@ -147,7 +149,8 @@ a {
 .bio-btn:hover,
 [type="file"]:focus + label,
 [type="file"] + label:hover,
-#friend-btn:hover {
+#friend-btn:hover,
+.friend-btn:hover {
     color: #380036;
     cursor: pointer;
 }
@@ -213,5 +216,31 @@ a {
     border-radius: 50%;
 }
 .members-wrapper h1 {
+    text-align: center;
+}
+
+/* Friends Component Styles */
+.friends {
+    display: flex;
+    /* flex-wrap: wrap;
+    flex-direction: column; */
+    /* justify-content: center; */
+}
+
+.friends-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* padding: 15px; */
+    margin-bottom: 25px;
+}
+
+.friends-info p {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.profile-wrapper h2 {
     text-align: center;
 }

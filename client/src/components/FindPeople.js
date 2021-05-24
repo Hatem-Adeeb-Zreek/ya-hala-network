@@ -12,10 +12,10 @@ export default function FindPeople() {
     useEffect(() => {
         (async () => {
             try {
-                let { data } = await axios.get("/users");
+                let { data } = await axios.post("/users");
                 setUsers(data);
             } catch (err) {
-                console.log("error in axios get /users:", err);
+                console.log("error in axios post /users:", err);
             }
         })();
     }, []);
@@ -24,7 +24,7 @@ export default function FindPeople() {
         let abort;
         (async () => {
             try {
-                let { data } = await axios.get(`/users/${userSearch}`);
+                let { data } = await axios.post(`/users/${userSearch}`);
                 if (data.length == 0) {
                     setUsers(data);
                     setEmpty(true);
