@@ -2,15 +2,19 @@
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
+// const io = require("socket.io")(server, {
+
+//     allowRequest: (req, callback) =>
+//         callback(
+//             null,
+//             req.headers.referer.startsWith("http://localhost:3001") ||
+//                 req.headers.referer.startsWith(
+//                     "https://hatem-social-network.herokuapp.com"
+//                 )
+//         ),
+// });
 const io = require("socket.io")(server, {
-    allowRequest: (req, callback) =>
-        callback(
-            null,
-            req.headers.referer.startsWith("http://localhost:3001") ||
-                req.headers.referer.startsWith(
-                    "https://hatem-social-network.herokuapp.com"
-                )
-        ),
+    origins: "localhost:3001 https://hatem-social-network.herokuapp.com:*",
 });
 const compression = require("compression");
 const path = require("path");
