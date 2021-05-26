@@ -279,7 +279,7 @@ a {
     margin-top: 15px;
 }
 
-.profile-wrapper p {
+#name {
     color: tomato;
     font-size: 15px;
     font-family: Georgia, "Times New Roman", Times, serif;

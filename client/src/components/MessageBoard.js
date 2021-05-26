@@ -61,7 +61,7 @@ export default function MessageBoard() {
                                         alt={`${msg.first} ${msg.last}`}
                                     />
                                     <div className="msg-info">
-                                        <p>
+                                        <p id="name">
                                             <strong>
                                                 {msg.first} {msg.last}:
                                             </strong>
