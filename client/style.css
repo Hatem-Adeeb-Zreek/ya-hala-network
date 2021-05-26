@@ -244,3 +244,14 @@ a {
 .profile-wrapper h2 {
     text-align: center;
 }
+
+/* messageboard component */
+.message {
+    display: flex;
+}
+
+.avatar2 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}

@@ -76,7 +76,7 @@ export default class App extends React.Component {
                     <div className="app-right">
                         <Link to={"/users"}>Find People</Link>
                         <Link to={"/friends"}>Friends</Link>
-                        <Link to={"/msgboard"}> MessageBoard</Link>
+                        <Link to={"/msgboard"}> Chat</Link>
                         <button name="logOut" onClick={() => this.logOut()}>
                             log out
                         </button>

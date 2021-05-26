@@ -34,17 +34,14 @@ export default function MessageBoard() {
 
     return (
         <>
-            <div id="messageBoard">
+            <div className="profile-wrapper">
                 <div className="msgboard-innerContainer" ref={elemRef}>
                     {boardMessages && (
                         <div className="msg-items">
                             {boardMessages.map((msg) => (
                                 <div className="message" key={msg.id}>
-                                    <p className="authorName">
-                                        {msg.first} {msg.last}
-                                    </p>
-                                    <p>{msg.created_at}</p>
                                     <img
+                                        className="avatar2"
                                         src={
                                             msg.avatar ||
                                             "/profile-fallback.e7a6f788830c.jpg"
@@ -56,6 +53,11 @@ export default function MessageBoard() {
                                         }}
                                         alt={`${msg.first} ${msg.last}`}
                                     />
+                                    <p className="authorName">
+                                        {msg.first} {msg.last}
+                                    </p>
+                                    <p>{msg.created_at}</p>
+
                                     <p className="message-box">{msg.message}</p>
                                 </div>
                             ))}
