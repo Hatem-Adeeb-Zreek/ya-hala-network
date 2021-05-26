@@ -28,3 +28,16 @@ CREATE TABLE friendships(
     recipient_id INT REFERENCES users(id) NOT NULL,
     accepted    BOOLEAN DEFAULT false
     );
+
+-- create a msgboard table
+DROP TABLE IF EXISTS msgboard CASCADE;
+CREATE TABLE msgboard(
+    id          SERIAL PRIMARY KEY,
+    msg         TEXT,
+    author      INT REFERENCES users(id) NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ); 
+
+
+
+    -- maybe need insert!!!!!

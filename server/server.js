@@ -1,6 +1,8 @@
 // import modules
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:3001" });
 const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
@@ -40,12 +42,14 @@ const uploader = multer({
 });
 
 // app.use
-app.use(
-    cookieSession({
-        secret: cookieSecret,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: cookieSecret,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 app.use(csurf());
 app.use(function (req, res, next) {
     res.cookie("mytoken", req.csrfToken());
@@ -484,6 +488,38 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, () => {
     console.log("Ya Hala Network Server listening to PORT 3001");
+});
+
+// socket    section ///////
+io.on("connection", async (socket) => {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    const { userId } = socket.request.session;
+    console.log(`connected socket id (${socket.id}) / userId (${userId})`);
+
+    try {
+        let data = await db.getMsgBrdHistory();
+        let payload = data.rows.reverse();
+        io.emit("mbdbHistory", payload);
+    } catch (err) {
+        console.log("Error in SOCKET io.emit mbdbHistory", err);
+    }
+
+    socket.on("newMsgFromClient", async (newMsg) => {
+        console.log(`userId ${userId} just added this message: ${newMsg}`);
+        try {
+            await db.addBoardMessage(userId, newMsg);
+            let data = await db.getMsgBrdHistory();
+            let payload = data.rows.reverse();
+            io.emit("mbdbHistory", payload);
+        } catch (err) {
+            console.log("Error in SOCKET io.emit newMsgFromClient", err);
+        }
+    });
+    socket.on("disconnect", () => {
+        console.log(`disconnected! (${socket.id}) / userId (${userId})`);
+    });
 });

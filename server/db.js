@@ -149,7 +149,7 @@ exports.deleteFriendship = (userId, otherId) => {
         `
         DELETE FROM friendships
         WHERE (sender_id = $1 AND recipient_id = $2)
-        OR (sender_id = $2 AND recipient_id = $1)
+        OR (sender_id = $2 AND recipient_id = $1);
         `,
         [userId, otherId]
     );
@@ -161,7 +161,7 @@ exports.acceptFriendship = (userId, otherId) => {
         `
         UPDATE friendships
         SET accepted = true
-        WHERE (sender_id = $2 AND recipient_id = $1) 
+        WHERE (sender_id = $2 AND recipient_id = $1); 
         `,
         [userId, otherId]
     );
@@ -189,8 +189,34 @@ exports.getFriendsAndWannabes = (userId) => {
         ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
         OR (accepted = false AND sender_id = $1 AND recipient_id = users.id)
         OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
-        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id);
         `,
         [userId]
+    );
+};
+
+// get the history of the messages
+exports.getMsgBrdHistory = () => {
+    return db.query(
+        `
+        SELECT msgboard.id, message, first, last, avatar, msgboard.created_at
+        FROM msgboard
+        JOIN users
+        ON author = users.id
+        ORDER BY msgboard.created_at DESC
+        LIMIT 10;
+        `
+    );
+};
+
+// add messages to the board
+exports.addBoardMessage = (userId, msg) => {
+    return db.query(
+        `
+        INSERT INTO msgboard
+        (author, message)
+        VALUES ($1, $2);
+        `,
+        [userId, msg]
     );
 };

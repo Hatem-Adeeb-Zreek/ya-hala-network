@@ -17,7 +17,7 @@ export default function Friends() {
             state.friendsWannabes &&
             state.friendsWannabes.filter((each) => each.accepted == false)
     );
-    let pendings = useSelector((state) => state.myRequests);
+    let pendings = useSelector((state) => state.myRequests && state.myRequests);
     useEffect(() => {
         dispatch(getList());
     }, []);

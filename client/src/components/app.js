@@ -10,6 +10,7 @@ import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
 import { Link } from "react-router-dom";
 import Friends from "./friends";
+import MessageBoard from "./MessageBoard";
 
 // App Class Component
 export default class App extends React.Component {
@@ -73,8 +74,9 @@ export default class App extends React.Component {
                 <header className="app-header">
                     <Logo />
                     <div className="app-right">
-                        <Link to="/users">Find People</Link>
+                        <Link to={"/users"}>Find People</Link>
                         <Link to={"/friends"}>Friends</Link>
+                        <Link to={"/msgboard"}> MessageBoard</Link>
                         <button name="logOut" onClick={() => this.logOut()}>
                             log out
                         </button>
@@ -116,6 +118,8 @@ export default class App extends React.Component {
                     {/* it can be Friends here */}
                 </section>
                 <Route exact path="/friends" render={() => <Friends />} />
+                {/* it can be chat link for this */}
+                <Route exact path="/msgboard" render={() => <MessageBoard />} />
                 {this.state.uploaderIsVisible && (
                     <Uploader
                         methodInApp={this.methodInApp}
