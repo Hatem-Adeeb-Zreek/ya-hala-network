@@ -2,24 +2,24 @@
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
-// const io = require("socket.io")(server, {
-
-//     allowRequest: (req, callback) =>
-//         callback(
-//             null,
-//             req.headers.referer.startsWith("http://localhost:3001") ||
-//                 req.headers.referer.startsWith(
-//                     "https://hatem-social-network.herokuapp.com"
-//                 )
-//         ),
-// });
 const io = require("socket.io")(server, {
-    origins: "localhost:3001 https://hatem-social-network.herokuapp.com:*",
+    allowRequest: (req, callback) =>
+        callback(
+            null,
+            req.headers.referer.startsWith("http://localhost:3000") ||
+                req.headers.referer.startsWith(
+                    "https://hatem-social-network.herokuapp.com"
+                )
+        ),
 });
+// const io = require("socket.io")(server, {
+//     origins: "localhost:3001 https://hatem-social-network.herokuapp.com:*",
+// });
 const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
-const { cookieSecret } = require("./secrets.json");
+const cookieSecret =
+    process.env.cookieSecret || require("./secrets.json").cookieSecret;
 const csurf = require("csurf");
 const { hash, compare } = require("./bc");
 const db = require("./db");
