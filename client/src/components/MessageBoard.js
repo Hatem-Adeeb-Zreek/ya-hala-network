@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { socket } from "../socket";
 import { useSelector } from "react-redux";
+import Picker from "emoji-picker-react";
 
 // MessageBoard Functional Component
 export default function MessageBoard() {
@@ -9,6 +10,11 @@ export default function MessageBoard() {
 
     const [scrolled, setScrolled] = useState(false);
     const [msgEntry, setMsgEntry] = useState(false);
+    const [chosenEmoji, setChosenEmoji] = useState(null);
+
+    const onEmojiClick = (event, emojiObject) => {
+        setChosenEmoji(emojiObject);
+    };
 
     const elemRef = useRef();
 
@@ -35,6 +41,7 @@ export default function MessageBoard() {
     return (
         <>
             <div className="profile-wrapper">
+                <h1>Chat Room</h1>
                 <div className="msgboard-innerContainer" ref={elemRef}>
                     {boardMessages && (
                         <div className="msg-items">
@@ -53,26 +60,40 @@ export default function MessageBoard() {
                                         }}
                                         alt={`${msg.first} ${msg.last}`}
                                     />
-                                    <p className="authorName">
-                                        {msg.first} {msg.last}
-                                    </p>
-                                    <p>{msg.created_at}</p>
-
-                                    <p className="message-box">{msg.message}</p>
+                                    <div className="msg-info">
+                                        <p>
+                                            <strong>
+                                                {msg.first} {msg.last}:
+                                            </strong>
+                                        </p>
+                                        <p id="message-box">{msg.message}</p>
+                                        <p id="date">{msg.created_at}</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     )}
                 </div>
-                <textarea
-                    autoFocus={true}
-                    rows="2"
-                    cols="50"
-                    onKeyDown={keyCheck}
-                />
-                <p>
-                    hit <strong>Enter</strong> to send
-                </p>
+                <div id="area">
+                    <textarea
+                        autoFocus={true}
+                        rows="4"
+                        cols="50"
+                        onKeyDown={keyCheck}
+                    />
+
+                    <div>
+                        {chosenEmoji ? (
+                            <span>You chose: {chosenEmoji.emoji}</span>
+                        ) : (
+                            <span>No emoji Chosen</span>
+                        )}
+                        <Picker onEmojiClick={onEmojiClick} />
+                    </div>
+                    <p>
+                        hit <strong>Enter</strong> to send
+                    </p>
+                </div>
             </div>
         </>
     );

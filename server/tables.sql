@@ -33,11 +33,14 @@ CREATE TABLE friendships(
 DROP TABLE IF EXISTS msgboard CASCADE;
 CREATE TABLE msgboard(
     id          SERIAL PRIMARY KEY,
-    msg         TEXT,
+    message         TEXT,
     author      INT REFERENCES users(id) NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ); 
+    
+    INSERT INTO msgboard
+    (message, author, created_at)
+VALUES 
+    ('Hi Baby, How are you ???', 201, '2021-05-11 23:05:58'),
 
-
-
-    -- maybe need insert!!!!!
+    ('Hi Love, I am fine and you ?? ', 64, '2021-05-11 23:05:59');

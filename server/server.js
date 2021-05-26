@@ -12,9 +12,6 @@ const io = require("socket.io")(server, {
                 )
         ),
 });
-// const io = require("socket.io")(server, {
-//     origins: "localhost:3001 https://hatem-social-network.herokuapp.com:*",
-// });
 const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");

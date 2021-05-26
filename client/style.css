@@ -248,10 +248,62 @@ a {
 /* messageboard component */
 .message {
     display: flex;
+    background-color: #f2cf07;
+    background-image: linear-gradient(315deg, #f2cf07 0%, #55d284 74%);
+    margin-bottom: 15px;
 }
 
 .avatar2 {
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    margin: 15px;
+}
+
+.msg-info {
+    display: flex;
+    /* flex-direction: column; */
+    /* margin: 15px; */
+    align-items: center;
+    /* justify-content: space-between; */
+    width: 100vw;
+    /* justify-content: space-between; */
+    position: relative;
+}
+.msg-info p {
+    margin: 5px;
+}
+
+.profile-wrapper h1 {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.profile-wrapper p {
+    color: tomato;
+    font-size: 15px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+#message-box {
+    color: #100d94;
+}
+#date {
+    position: absolute;
+    right: 0;
+    color: whitesmoke;
+}
+
+textarea {
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    /* width: 75vw; */
+    /* align-self: center; */
+}
+#area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
