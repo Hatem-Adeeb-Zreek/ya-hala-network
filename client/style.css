@@ -294,7 +294,7 @@ a {
     color: whitesmoke;
 }
 
-textarea {
+#textarea {
     border-radius: 5px;
     font-size: 15px;
     font-weight: bold;

@@ -80,6 +80,7 @@ export default function MessageBoard() {
                 </div>
                 <div id="area">
                     <textarea
+                        id="textarea"
                         autoFocus={true}
                         rows="4"
                         cols="50"
