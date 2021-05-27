@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { socket } from "../socket";
 import { useSelector } from "react-redux";
 import Picker from "emoji-picker-react";
+// online users feature
+import Online from "./Onlineusers";
 
 // MessageBoard Functional Component
 export default function MessageBoard() {
@@ -41,6 +43,8 @@ export default function MessageBoard() {
     return (
         <>
             <div className="profile-wrapper">
+                {/* online users feature */}
+                <Online />
                 <h1>Chat Room</h1>
                 <div className="msgboard-innerContainer" ref={elemRef}>
                     {boardMessages && (

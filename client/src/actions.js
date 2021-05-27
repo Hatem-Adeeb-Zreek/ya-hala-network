@@ -94,3 +94,20 @@ export function mbdbNewEntry(msg) {
         newestMessage: msg,
     };
 }
+
+// online users feature
+export function onlineUsers(onlineUsers) {
+    //console.log("onlineUsers in actions.js that we get from socket.js", onlineUsers)
+    return {
+        type: "ONLINE_USERS",
+        onlineUsers,
+    };
+}
+export function userLeft(onlineUsers) {
+    //console.log("onlineUsers in actions.js that we get from socket.js", onlineUsers)
+    return {
+        type: "USER_LEFT",
+        onlineUsers,
+    };
+}
+// end

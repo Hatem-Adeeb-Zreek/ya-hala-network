@@ -503,12 +503,31 @@ server.listen(process.env.PORT || 3001, () => {
 });
 
 // socket    section ///////
+// online users feature
+let onlineUsers = {};
 io.on("connection", async (socket) => {
-    if (!socket.request.session.userId) {
-        return socket.disconnect(true);
-    }
+    // online users feature
     const { userId } = socket.request.session;
     console.log(`connected socket id (${socket.id}) / userId (${userId})`);
+    // end
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    } // online users feature
+    else {
+        onlineUsers[socket.id] = userId;
+        let arr = Object.values(onlineUsers);
+        console.log("My array of users ids in sockets : ", arr);
+        db.getUsersByIds(arr)
+            .then(({ rows }) => {
+                console.log(
+                    "these are my rows after getUsersByIds in index.js",
+                    rows.reverse()
+                );
+                io.sockets.emit("onlineusers", rows);
+            })
+            .catch((err) => console.log("err in db.getUsersByIds", err));
+    }
+    // end
 
     try {
         let data = await db.getMsgBrdHistory();
@@ -529,7 +548,22 @@ io.on("connection", async (socket) => {
             console.log("Error in SOCKET io.emit newMsgFromClient", err);
         }
     });
+    // online users feature
     socket.on("disconnect", () => {
-        console.log(`disconnected! (${socket.id}) / userId (${userId})`);
+        var disconectedId = onlineUsers[socket.id];
+        //console.log("disconedtedId when user leaves: ", disconectedId);
+        delete onlineUsers[socket.id];
+        //console.log("onlineUsers after the user leaves :", onlineUsers)
+        var arr = Object.values(onlineUsers);
+        //console.log("My array of users ids in sockets : ", arr);
+        if (!Object.values(onlineUsers).includes(disconectedId)) {
+            db.getUsersByIds(arr)
+                .then(({ rows }) => {
+                    //console.log("these are my rows after getUsersByIds in index.js", rows.reverse());
+                    io.sockets.emit("userleft", rows);
+                })
+                .catch((err) => console.log("err in db.getUsersByIds", err));
+        }
     });
+    // end
 });

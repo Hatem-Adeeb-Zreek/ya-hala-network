@@ -220,3 +220,12 @@ exports.addBoardMessage = (userId, msg) => {
         [userId, msg]
     );
 };
+
+// online users feature
+module.exports.getUsersByIds = (arr) => {
+    return db.query(
+        `SELECT id, first, last, avatar 
+        FROM users WHERE id = ANY($1)`,
+        [arr]
+    );
+};

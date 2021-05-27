@@ -307,3 +307,21 @@ textarea {
     flex-direction: column;
     align-items: center;
 }
+
+/* online users component styles */
+#online-users-container {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.online-user {
+    display: flex;
+    flex-direction: column;
+}
+.online-user img {
+    margin: 5px;
+}
+.online-user p {
+    margin: 0;
+}

@@ -1,5 +1,6 @@
 import io from "socket.io-client";
-import { mbdbHistory, mbdbNewEntry } from "./actions";
+// online users feature
+import { mbdbHistory, mbdbNewEntry, onlineUsers, userLeft } from "./actions";
 
 export let socket;
 
@@ -16,5 +17,13 @@ export const init = (store) => {
             store.dispatch(mbdbNewEntry(msg));
             // console.log("array with new msg:", msg);
         });
+        // online users feature
+        socket.on("onlineusers", (usersOnline) =>
+            store.dispatch(onlineUsers(usersOnline))
+        );
+        socket.on("userleft", (usersOnline) =>
+            store.dispatch(userLeft(usersOnline))
+        );
+        // end
     } //end of IF block
 };
