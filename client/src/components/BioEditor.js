@@ -2,8 +2,9 @@
 import { Component } from "react";
 import axios from "../axios";
 
-// BioEditor Class Component
+// BioEditor class component
 export default class BioEditor extends Component {
+    // BioEditor constructor
     constructor(props) {
         super(props);
         this.state = {
@@ -12,6 +13,7 @@ export default class BioEditor extends Component {
         };
     }
 
+    // BioEditor methods
     methodInBioEditor() {
         this.props.methodInAppBio(this.state.draftBio);
     }
@@ -45,12 +47,13 @@ export default class BioEditor extends Component {
         }
     }
 
+    // BioEditor render
     render() {
         return (
             <div>
                 <p className="bio-text">
                     <strong>Bio: </strong>
-                    {this.props.bio || "your Bio is empty."}
+                    {this.props.bio || "Bio is Empty."}
                 </p>
                 {this.state.editorIsVisible && (
                     <textarea
@@ -67,10 +70,10 @@ export default class BioEditor extends Component {
                     className="bio-btn"
                 >
                     {this.state.editorIsVisible
-                        ? "save"
+                        ? "Save"
                         : this.props.bio
-                        ? "edit Bio"
-                        : "add Bio"}
+                        ? "Edit Bio"
+                        : "Add Bio"}
                 </button>
             </div>
         );

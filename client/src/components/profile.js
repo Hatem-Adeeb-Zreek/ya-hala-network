@@ -1,13 +1,13 @@
-// import modules
-// import BioEditor from "./BioEditor";
+// import components
 import ProfilePic from "./ProfilePic";
 import BioEditor from "./BioEditor";
 
-// Profile Class Component
+// Profile function component
 export default function Profile(props) {
+    // Profile render
     return (
         <div className="profile">
-            <div className="bio-wrapper">
+            <div>
                 <h2>
                     {props.first} {props.last}
                 </h2>

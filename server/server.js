@@ -25,7 +25,7 @@ const ses = require("./ses");
 const s3 = require("./s3");
 const { s3Url } = require("./config.json");
 
-/////// MULTER ////////
+// multer
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 
@@ -51,11 +51,13 @@ const uploader = multer({
     },
 });
 
-// app.use
+// cookies
 const cookieSessionMiddleware = cookieSession({
     secret: cookieSecret,
     maxAge: 1000 * 60 * 60 * 24 * 14,
 });
+
+// app.use method
 app.use(cookieSessionMiddleware);
 io.use(function (socket, next) {
     cookieSessionMiddleware(socket.request, socket.request.res, next);
@@ -111,7 +113,6 @@ app.post("/register", (req, res) => {
                 console.log("error is POST /register hash()", err);
             });
     } else {
-        console.log("error! empty fields!");
         res.json({
             success: false,
             message: "🛑 Make sure your Form is Complete 🛑",
@@ -130,10 +131,8 @@ app.post("/login", (req, res) => {
                     .then((match) => {
                         if (match) {
                             req.session.userId = results.rows[0].id;
-                            console.log("successful log in!");
                             res.json({ success: true });
                         } else {
-                            console.log("error! no match passwords");
                             res.json({
                                 success: false,
                                 message: "🛑 Failed to login 🛑",
@@ -156,7 +155,6 @@ app.post("/login", (req, res) => {
                 });
             });
     } else {
-        console.log("error! empty fields!");
         res.json({
             success: false,
             message: " 🛑 All Fields are mandatory 🛑",
@@ -234,7 +232,6 @@ app.post("/password/reset/old", (req, res) => {
 // Post Route for Reset Password
 app.post("/password/reset/start", async (req, res) => {
     const { email } = req.body;
-    console.log(email);
     if (email) {
         try {
             let checkEmail = await db.getUserDataByEmail(email);
@@ -251,7 +248,6 @@ app.post("/password/reset/start", async (req, res) => {
                 ${secretCode}
                 Please Note: This Verification Code expires after 10 minutes!
                 `;
-                //
                 await ses.sendEmail(email, emailMessage, emailSubject);
                 res.json({ success: true });
             } else {
@@ -502,21 +498,15 @@ server.listen(process.env.PORT || 3001, () => {
     console.log("Ya Hala Network Server listening to PORT 3001");
 });
 
-// socket    section ///////
-// online users feature
+// socket section
 let onlineUsers = {};
 io.on("connection", async (socket) => {
-    // online users feature
     const { userId } = socket.request.session;
-    console.log(`connected socket id (${socket.id}) / userId (${userId})`);
-    // end
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
-    } // online users feature
-    else {
+    } else {
         onlineUsers[socket.id] = userId;
         let arr = Object.values(onlineUsers);
-        console.log("My array of users ids in sockets : ", arr);
         db.getUsersByIds(arr)
             .then(({ rows }) => {
                 console.log(
@@ -527,7 +517,6 @@ io.on("connection", async (socket) => {
             })
             .catch((err) => console.log("err in db.getUsersByIds", err));
     }
-    // end
 
     try {
         let data = await db.getMsgBrdHistory();
@@ -538,7 +527,6 @@ io.on("connection", async (socket) => {
     }
 
     socket.on("newMsgFromClient", async (newMsg) => {
-        console.log(`userId ${userId} just added this message: ${newMsg}`);
         try {
             await db.addBoardMessage(userId, newMsg);
             let data = await db.getMsgBrdHistory();
@@ -548,22 +536,17 @@ io.on("connection", async (socket) => {
             console.log("Error in SOCKET io.emit newMsgFromClient", err);
         }
     });
-    // online users feature
+
     socket.on("disconnect", () => {
         var disconectedId = onlineUsers[socket.id];
-        //console.log("disconedtedId when user leaves: ", disconectedId);
         delete onlineUsers[socket.id];
-        //console.log("onlineUsers after the user leaves :", onlineUsers)
         var arr = Object.values(onlineUsers);
-        //console.log("My array of users ids in sockets : ", arr);
         if (!Object.values(onlineUsers).includes(disconectedId)) {
             db.getUsersByIds(arr)
                 .then(({ rows }) => {
-                    //console.log("these are my rows after getUsersByIds in index.js", rows.reverse());
                     io.sockets.emit("userleft", rows);
                 })
                 .catch((err) => console.log("err in db.getUsersByIds", err));
         }
     });
-    // end
 });

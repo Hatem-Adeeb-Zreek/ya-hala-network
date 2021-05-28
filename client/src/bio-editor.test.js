@@ -1,7 +1,9 @@
 // import modules
-import BioEditor from "./components/BioEditor";
 import { render, waitFor, fireEvent } from "@testing-library/react";
 import axios from "./axios";
+
+// import components
+import BioEditor from "./components/BioEditor";
 
 // mock axios
 jest.mock("./axios");

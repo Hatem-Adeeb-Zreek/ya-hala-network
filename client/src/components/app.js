@@ -1,19 +1,22 @@
 // import modules
 import React from "react";
 import axios from "../axios";
+import { BrowserRouter, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+// import components
 import ProfilePic from "./ProfilePic";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import Logo from "./Logo";
-import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
-import { Link } from "react-router-dom";
 import Friends from "./friends";
 import MessageBoard from "./MessageBoard";
 
-// App Class Component
+// App class component
 export default class App extends React.Component {
+    // App constructor
     constructor() {
         super();
         this.state = {
@@ -23,10 +26,10 @@ export default class App extends React.Component {
         this.methodInAppBio = this.methodInAppBio.bind(this);
     }
 
+    // App Methods
     componentDidMount() {
         (async () => {
             try {
-                // post ----- get
                 let response = await axios.get("/user");
                 const { id, first, last, avatar, bio } = response.data.rows;
                 this.setState({
@@ -68,6 +71,7 @@ export default class App extends React.Component {
         })();
     }
 
+    // App render
     render() {
         return (
             <BrowserRouter>
@@ -115,10 +119,8 @@ export default class App extends React.Component {
                         )}
                     />
                     <Route exact path="/users" render={() => <FindPeople />} />
-                    {/* it can be Friends here */}
                 </section>
                 <Route exact path="/friends" render={() => <Friends />} />
-                {/* it can be chat link for this */}
                 <Route exact path="/msgboard" render={() => <MessageBoard />} />
                 {this.state.uploaderIsVisible && (
                     <Uploader

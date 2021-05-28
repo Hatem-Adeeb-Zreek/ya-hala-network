@@ -1,23 +1,25 @@
-// online users feature
+// import modules
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
+// Online function component
 export default function Online() {
+    // Redux setup
     const onlineUsers = useSelector((state) => state && state.onlineUsers);
-    // console.log(" Chat.js - here is a list of my last chatMessages :", chatMessages);
 
-    useEffect(() => {
-        // console.log("Onlineusers hooks component mounted");
-    }, [onlineUsers]); //array has to have onlineUsers in it
+    // Online hooks
+    useEffect(() => {}, [onlineUsers]);
+
+    // Online render
     if (!onlineUsers) {
         return null;
     } else {
         return (
-            <div id="online-users">
-                {!onlineUsers.length && <h5>No users online!</h5>}
+            <div>
+                {!onlineUsers.length && <h5>No Users Online!</h5>}
                 {!!onlineUsers.length && (
                     <div>
-                        <h1 className="online-greet">Online Users</h1>
+                        <h1>Online Users</h1>
                         <div id="online-users-container">
                             {onlineUsers.map((onlineUser, i) => (
                                 <div className="online-user" key={i}>
@@ -40,4 +42,3 @@ export default function Online() {
         );
     }
 }
-// end

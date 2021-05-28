@@ -2,22 +2,18 @@
 import { useEffect, useRef, useState } from "react";
 import { socket } from "../socket";
 import { useSelector } from "react-redux";
-import Picker from "emoji-picker-react";
-// online users feature
+
+// import components
 import Online from "./Onlineusers";
 
-// MessageBoard Functional Component
+// MessageBoard function component
 export default function MessageBoard() {
+    // Redux setup
     const boardMessages = useSelector((state) => state && state.boardMessages);
 
+    // MessageBoard hooks
     const [scrolled, setScrolled] = useState(false);
     const [msgEntry, setMsgEntry] = useState(false);
-    const [chosenEmoji, setChosenEmoji] = useState(null);
-
-    const onEmojiClick = (event, emojiObject) => {
-        setChosenEmoji(emojiObject);
-    };
-
     const elemRef = useRef();
 
     useEffect(() => {
@@ -26,6 +22,7 @@ export default function MessageBoard() {
         msgEntry && scrollFn();
     }, [boardMessages]);
 
+    // MessageBoard methods
     function scrollFn() {
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
@@ -40,15 +37,15 @@ export default function MessageBoard() {
         }
     };
 
+    // MessageBoard render
     return (
         <>
             <div className="profile-wrapper">
-                {/* online users feature */}
                 <Online />
                 <h1>Chat Room</h1>
-                <div className="msgboard-innerContainer" ref={elemRef}>
+                <div ref={elemRef}>
                     {boardMessages && (
-                        <div className="msg-items">
+                        <div>
                             {boardMessages.map((msg) => (
                                 <div className="message" key={msg.id}>
                                     <img
@@ -87,14 +84,6 @@ export default function MessageBoard() {
                         onKeyDown={keyCheck}
                     />
 
-                    <div>
-                        {chosenEmoji ? (
-                            <span>You chose: {chosenEmoji.emoji}</span>
-                        ) : (
-                            <span>No emoji Chosen</span>
-                        )}
-                        <Picker onEmojiClick={onEmojiClick} />
-                    </div>
                     <p>
                         hit <strong>Enter</strong> to send
                     </p>

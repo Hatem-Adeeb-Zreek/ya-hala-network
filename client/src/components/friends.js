@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getList, unfriend, accept, reject, cancel } from "../actions";
 import { Link } from "react-router-dom";
 
-// Functional Friends Component
+// Friends function component
 export default function Friends() {
+    // Redux setup and Friends hooks
     const dispatch = useDispatch();
     let friends = useSelector(
         (state) =>
@@ -26,16 +27,17 @@ export default function Friends() {
     wannabes && wannabes.length == 0 && (wannabes = null);
     pendings && pendings.length == 0 && (pendings = null);
 
+    // Friends render
     return (
         <>
             <div className="profile-wrapper">
                 {!friends && !wannabes && !pendings && (
-                    <h2>No Friendships to show</h2>
+                    <h2>No Friendships to Show</h2>
                 )}
                 {friends && (
                     <div>
                         <h2>My Friends</h2>
-                        <div className="items">
+                        <div>
                             {friends.map((friend) => (
                                 <div className="friends" key={friend.id}>
                                     <Link to={`/user/${friend.id}`}>
@@ -59,12 +61,11 @@ export default function Friends() {
                                         </p>
 
                                         <button
-                                            className="friend-btn"
                                             onClick={() =>
                                                 dispatch(unfriend(friend.id))
                                             }
                                         >
-                                            unfriend
+                                            Unfriend
                                         </button>
                                     </div>
                                 </div>
@@ -75,7 +76,7 @@ export default function Friends() {
                 {wannabes && (
                     <div>
                         <h2>People want to be Your Friends</h2>
-                        <div className="items">
+                        <div>
                             {wannabes.map((wannabe) => (
                                 <div className="friends" key={wannabe.id}>
                                     <Link to={`/user/${wannabe.id}`}>
@@ -97,22 +98,20 @@ export default function Friends() {
                                         <p>
                                             {wannabe.first} {wannabe.last}
                                         </p>
-                                        <div className="btns">
+                                        <div>
                                             <button
-                                                className="friend-btn"
                                                 onClick={() =>
                                                     dispatch(accept(wannabe.id))
                                                 }
                                             >
-                                                accept
+                                                Accept
                                             </button>
                                             <button
-                                                className="friend-btn"
                                                 onClick={() =>
                                                     dispatch(reject(wannabe.id))
                                                 }
                                             >
-                                                reject
+                                                Reject
                                             </button>
                                         </div>
                                     </div>
@@ -124,7 +123,7 @@ export default function Friends() {
                 {pendings && (
                     <div>
                         <h2>My pending Requests</h2>
-                        <div className="items">
+                        <div>
                             {pendings.map((pending) => (
                                 <div className="friends" key={pending.id}>
                                     <Link to={`/user/${pending.id}`}>
@@ -148,12 +147,11 @@ export default function Friends() {
                                         </p>
 
                                         <button
-                                            className="friend-btn"
                                             onClick={() =>
                                                 dispatch(cancel(pending.id))
                                             }
                                         >
-                                            cancel
+                                            Cancel
                                         </button>
                                     </div>
                                 </div>

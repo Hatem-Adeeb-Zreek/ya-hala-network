@@ -1,18 +1,22 @@
 // import modules
 import React from "react";
 import axios from "../axios";
+
+// import components
 import FriendButton from "./FriendButton";
 
-// OtherProfile Class Component
+// OtherProfile class component
 export default class OtherProfile extends React.Component {
+    // OtherProfile constructor
     constructor() {
         super();
         this.state = {};
     }
+
+    // OtherProfile methods
     componentDidMount() {
         (async () => {
             try {
-                // post ---- get
                 let response = await axios.get(
                     `/user/${this.props.match.params.id}`
                 );
@@ -33,11 +37,12 @@ export default class OtherProfile extends React.Component {
         })();
     }
 
+    // OtherProfile render
     render() {
         return (
             <div className="profile">
-                <div className="bio-wrapper">
-                    <h2 id="memberName">{`${this.state.first} ${this.state.last}`}</h2>
+                <div>
+                    <h2>{`${this.state.first} ${this.state.last}`}</h2>
                     <p className="bio-text1">
                         {this.state.bio || "No Bio yet"}
                     </p>

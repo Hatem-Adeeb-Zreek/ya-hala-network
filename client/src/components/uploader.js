@@ -1,10 +1,10 @@
 // import modules
 import React from "react";
 import axios from "../axios";
-let formdataUrl;
 
-// Uploader Class Component
+// Uploader class component
 export default class Uploader extends React.Component {
+    // Uploader constructor
     constructor(props) {
         super();
         this.state = {
@@ -13,6 +13,8 @@ export default class Uploader extends React.Component {
         };
         this.handleFileChange = this.handleFileChange.bind(this);
     }
+
+    // Uploader methods
     methodInUploader() {
         this.props.methodInApp(this.state.imgUrl);
     }
@@ -38,6 +40,7 @@ export default class Uploader extends React.Component {
         })();
     }
 
+    // Uploader render
     render() {
         return (
             <div className="uploader-wrapper">

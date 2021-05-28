@@ -6,7 +6,6 @@
 body {
     margin: 0 auto;
     font-family: "Waiting for the Sunrise", cursive;
-    /* overflow: hidden; */
 }
 
 /* Welcome Component Styles */
@@ -63,7 +62,7 @@ input {
 
 button:hover,
 a:hover {
-    color: whitesmoke;
+    color: tomato;
     cursor: pointer;
 }
 
@@ -222,9 +221,6 @@ a {
 /* Friends Component Styles */
 .friends {
     display: flex;
-    /* flex-wrap: wrap;
-    flex-direction: column; */
-    /* justify-content: center; */
 }
 
 .friends-info {
@@ -232,7 +228,6 @@ a {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* padding: 15px; */
     margin-bottom: 25px;
 }
 
@@ -262,12 +257,8 @@ a {
 
 .msg-info {
     display: flex;
-    /* flex-direction: column; */
-    /* margin: 15px; */
     align-items: center;
-    /* justify-content: space-between; */
     width: 100vw;
-    /* justify-content: space-between; */
     position: relative;
 }
 .msg-info p {
@@ -299,8 +290,6 @@ a {
     font-size: 15px;
     font-weight: bold;
     font-family: Georgia, "Times New Roman", Times, serif;
-    /* width: 75vw; */
-    /* align-self: center; */
 }
 #area {
     display: flex;
@@ -311,7 +300,6 @@ a {
 /* online users component styles */
 #online-users-container {
     display: flex;
-    /* flex-direction: column; */
     justify-content: space-around;
     flex-wrap: wrap;
 }

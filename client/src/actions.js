@@ -80,7 +80,6 @@ export async function cancel(id) {
 
 //MessageBoard Actions
 export function mbdbHistory(msgs) {
-    // console.log("action: bringing up the list!");
     return {
         type: "RETRIEVED_MSGS",
         msgsHistory: msgs,
@@ -88,26 +87,21 @@ export function mbdbHistory(msgs) {
 }
 
 export function mbdbNewEntry(msg) {
-    // console.log("action: adding a new message!");
     return {
         type: "NEW_MSG",
         newestMessage: msg,
     };
 }
 
-// online users feature
 export function onlineUsers(onlineUsers) {
-    //console.log("onlineUsers in actions.js that we get from socket.js", onlineUsers)
     return {
         type: "ONLINE_USERS",
         onlineUsers,
     };
 }
 export function userLeft(onlineUsers) {
-    //console.log("onlineUsers in actions.js that we get from socket.js", onlineUsers)
     return {
         type: "USER_LEFT",
         onlineUsers,
     };
 }
-// end

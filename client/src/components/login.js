@@ -3,13 +3,15 @@ import React from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
 
-// Login Class Component
+// Login class component
 export default class Login extends React.Component {
+    // Login constructor
     constructor() {
         super();
         this.state = {};
     }
 
+    // Login methods
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -34,10 +36,11 @@ export default class Login extends React.Component {
             .catch((e) => console.log("error in axios post /login", e));
     }
 
+    // Login render
     render() {
         return (
             <div className="info">
-                <h1>Please login</h1>
+                <h1>Please Login</h1>
                 {this.state.error && (
                     <h1 className="err">{this.state.message}</h1>
                 )}

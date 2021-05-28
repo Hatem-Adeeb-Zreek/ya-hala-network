@@ -54,7 +54,6 @@ export default (state = {}, action) => {
             return (state = Object.assign({}, state, {
                 boardMessages: action.newestMessage,
             }));
-        // online users feature
         case "ONLINE_USERS":
             return (state = Object.assign({}, state, {
                 onlineUsers: action.onlineUsers,
@@ -63,7 +62,6 @@ export default (state = {}, action) => {
             return (state = Object.assign({}, state, {
                 onlineUsers: action.onlineUsers,
             }));
-        // end
         default:
             return state;
     }

@@ -1,15 +1,17 @@
-// import
+// import modules
 import React from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
 
-// Register Class Component
+// Register class component
 export default class Register extends React.Component {
+    // Register constructor
     constructor() {
         super();
         this.state = {};
     }
 
+    // Register methods
     handleChange(e) {
         this.setState({
             [e.target.name]: e.target.value,
@@ -38,6 +40,7 @@ export default class Register extends React.Component {
             .catch((e) => console.log("error in axios post /register", e));
     }
 
+    // Register render
     render() {
         return (
             <div className="info">
@@ -78,10 +81,8 @@ export default class Register extends React.Component {
                 ></input>
                 <button onClick={() => this.submit()}>register</button>
                 <h3>
-                    already a Member?
-                    <Link to="/login" className="link">
-                        login
-                    </Link>
+                    Already a Member?
+                    <Link to="/login">login</Link>
                 </h3>
             </div>
         );

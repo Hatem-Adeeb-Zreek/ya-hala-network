@@ -1,10 +1,11 @@
-// ProfilePic Functional Component
+// ProfilePic function component
 export default function ProfilePic({
     first,
     last,
     profilePicUrl,
     toggleUploader,
 }) {
+    // ProfilePic render
     return (
         <div>
             <img

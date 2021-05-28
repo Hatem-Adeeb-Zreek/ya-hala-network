@@ -1,14 +1,18 @@
+// import modules
 import React from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
 
+// ResetPassword class component
 export default class ResetPassword extends React.Component {
+    // ResetPassword constructor
     constructor() {
         super();
         this.state = {};
         this.state.step = "provideEmail";
     }
 
+    // ResetPassword methods
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -61,6 +65,7 @@ export default class ResetPassword extends React.Component {
     getCurrentDisplay() {
         const step = this.state.step;
         if (step == "provideEmail") {
+            // ResetPassword render
             return (
                 <div className="info">
                     <h1>Please Enter Your Email</h1>

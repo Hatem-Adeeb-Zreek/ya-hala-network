@@ -2,14 +2,15 @@
 import { useState, useEffect } from "react";
 import axios from "../axios";
 
+// FriendButton function component
 export default function FriendButton({ otherId }) {
+    // FriendButton hooks
     const [buttonText, setButtonText] = useState("");
     const [btnUpdate, setBtnUpdate] = useState(false);
 
     useEffect(() => {
         (async () => {
             try {
-                // post ---- get
                 let { data } = await axios.get(`/checkFriendStatus/${otherId}`);
                 setButtonText(data.btnText);
             } catch (err) {
@@ -21,6 +22,7 @@ export default function FriendButton({ otherId }) {
         })();
     }, [btnUpdate]);
 
+    // FriendButton methods
     function handleClick() {
         setBtnUpdate(false);
         (async () => {
@@ -33,6 +35,7 @@ export default function FriendButton({ otherId }) {
         })();
     }
 
+    // FriendButton render
     return (
         <button
             id="friend-btn"

@@ -3,12 +3,13 @@ import { useState, useEffect } from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
 
-// FindPeople Function Component
+// FindPeople function component
 export default function FindPeople() {
+    //FindPeople Hooks
     const [users, setUsers] = useState([]);
     const [userSearch, setUserSearch] = useState("");
     const [empty, setEmpty] = useState(false);
-    // post ---- get
+
     useEffect(() => {
         (async () => {
             try {
@@ -19,7 +20,7 @@ export default function FindPeople() {
             }
         })();
     }, []);
-    // post ---- get
+
     useEffect(() => {
         let abort;
         (async () => {
@@ -45,6 +46,7 @@ export default function FindPeople() {
         };
     }, [userSearch]);
 
+    // FindPeople render
     return (
         <div className="members-wrapper">
             <h1>Most Recent Members</h1>

@@ -1,11 +1,14 @@
-// import
-import Register from "./register";
+// import modules
 import { HashRouter, Route } from "react-router-dom";
+
+// import components
+import Register from "./register";
 import Login from "./login";
 import ResetPassword from "./reset-password";
 
-// Welcome Function Component
+// Welcome function component
 export default function Welcome() {
+    // Welcome render
     return (
         <>
             <section className="section1">
@@ -19,9 +22,6 @@ export default function Welcome() {
                     <Route path="/reset-password" component={ResetPassword} />
                 </section>
             </HashRouter>
-            {/* <footer>
-                <img src="background.png" alt="background" />
-            </footer> */}
         </>
     );
 }
