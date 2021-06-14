@@ -1,3 +1,315 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+}
+
 body {
-    background-color: ghostwhite;
+    margin: 0 auto;
+    font-family: "Waiting for the Sunrise", cursive;
+}
+
+/* Welcome Component Styles */
+.section1 {
+    background-color: #0cbaba;
+    background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
+    width: 50%;
+    float: left;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.section2 {
+    background-color: #f2cf07;
+    background-image: linear-gradient(315deg, #f2cf07 0%, #55d284 74%);
+    width: 50%;
+    float: left;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+video {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+/* Register, Login, ResetPassword Components Styles */
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+input {
+    margin: 15px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #666;
+    color: whitesmoke;
+    font-size: 18px;
+    outline: none;
+}
+
+button:hover,
+a:hover {
+    color: tomato;
+    cursor: pointer;
+}
+
+button,
+[type="file"] + label {
+    background: none;
+    border: none;
+    color: #037175;
+    font-size: 20px;
+    outline: none;
+}
+
+a {
+    text-decoration: none;
+    margin: 15px;
+    color: #037175;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.err {
+    color: #a00606;
+}
+
+/* Start Component Styles */
+.start-wrapper {
+    min-height: 100vh;
+    background-color: #0cbaba;
+    background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
+}
+
+/* App Component Styles */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f2cf07;
+    background-image: linear-gradient(315deg, #f2cf07 0%, #55d284 74%);
+}
+.app-right {
+    display: flex;
+    justify-content: space-between;
+}
+.app-right a {
+    margin-top: 40px;
+}
+.app-header video,
+.avatar {
+    width: 75px;
+    height: 75px;
+    margin: 15px;
+}
+.avatar {
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.profile-wrapper {
+    background-color: whitesmoke;
+    margin: 15px auto;
+    border-radius: 10px;
+    width: 75%;
+    height: 150%;
+}
+
+/* Profile Component Styles */
+.profile {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row-reverse;
+}
+
+.profile .avatar {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* BioEditor Component Styles */
+.bio-text {
+    font-size: 25px;
+}
+
+.bio-btn:hover,
+[type="file"]:focus + label,
+[type="file"] + label:hover,
+#friend-btn:hover,
+.friend-btn:hover {
+    color: #380036;
+    cursor: pointer;
+}
+
+/* Uploader Component Styles */
+.uploader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: black;
+    color: whitesmoke;
+    width: 50%;
+    height: 50%;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+[type="file"] {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    white-space: nowrap;
+    width: 1px;
+}
+
+/* OtherProfile Component Styles */
+.avatar1 {
+    border-radius: 10px;
+    margin: 15px;
+}
+
+.bio-text1 {
+    font-size: 20px;
+}
+
+/* FindPeople Component Styles */
+.members {
+    display: flex;
+    align-items: center;
+}
+
+.search {
+    border: none;
+    border-bottom: 1px solid #666;
+    color: black;
+    font-size: 15px;
+    width: 30%;
+}
+.search-bar {
+    display: flex;
+}
+
+.members-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.members-wrapper h1 {
+    text-align: center;
+}
+
+/* Friends Component Styles */
+.friends {
+    display: flex;
+}
+
+.friends-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.friends-info p {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.profile-wrapper h2 {
+    text-align: center;
+}
+
+/* messageboard component */
+.message {
+    display: flex;
+    background-color: #f2cf07;
+    background-image: linear-gradient(315deg, #f2cf07 0%, #55d284 74%);
+    margin-bottom: 15px;
+}
+
+.avatar2 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 15px;
+}
+
+.msg-info {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    position: relative;
+}
+.msg-info p {
+    margin: 5px;
+}
+
+.profile-wrapper h1 {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#name {
+    color: tomato;
+    font-size: 15px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+#message-box {
+    color: #100d94;
+}
+#date {
+    position: absolute;
+    right: 0;
+    color: whitesmoke;
+}
+
+#textarea {
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+#area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* online users component styles */
+#online-users-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.online-user {
+    display: flex;
+    flex-direction: column;
+}
+.online-user img {
+    margin: 5px;
+}
+.online-user p {
+    margin: 0;
 }
